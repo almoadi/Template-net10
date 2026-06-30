@@ -1,0 +1,12 @@
+{
+  // General application settings (the .NET analog of Laravel's config/app.php).
+  "App": {
+    "Name": "Template-net10",                 // Display name used in docs, emails, Swagger, etc.
+    "Url": "https://localhost:5001",          // Public base URL of the API.
+    "Version": "1.0.0",                        // Application/semantic version.
+    "SupportEmail": "support@template-net10.local",
+    "TimeZone": "Asia/Riyadh",                 // IANA time zone id used for app-level date handling.
+    "DefaultLocale": "en",                     // Fallback language when no Accept-Language matches.
+    "SupportedLocales": [ "en", "ar" ]         // Languages the API can localize responses into.
+  }
+}

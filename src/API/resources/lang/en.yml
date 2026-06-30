@@ -1,0 +1,12 @@
+# English localization messages.
+# Keys must match the Template_net10.Application.Abstractions.Localization.Resource enum.
+OperationSucceeded: "Operation completed successfully."
+UserCreated: "User created successfully."
+UserUpdated: "User updated successfully."
+UserNotFound: "User not found."
+PhoneAlreadyExists: "A user with this phone number already exists."
+EmailAlreadyExists: "A user with this email already exists."
+InvalidCredentials: "Invalid email or password."
+RoleCreated: "Role created successfully."
+RoleNotFound: "Role not found."
+RolesAssigned: "Roles assigned successfully."

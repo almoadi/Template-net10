@@ -1,0 +1,6 @@
+{
+  "Queue": {
+    "DashboardEnabled": true,
+    "WorkerCount": 10
+  }
+}

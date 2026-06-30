@@ -1,0 +1,12 @@
+# Arabic localization messages.
+# Keys must match the Template_net10.Application.Abstractions.Localization.Resource enum.
+OperationSucceeded: "تمت العملية بنجاح."
+UserCreated: "تم إنشاء المستخدم بنجاح."
+UserUpdated: "تم تحديث المستخدم بنجاح."
+UserNotFound: "المستخدم غير موجود."
+PhoneAlreadyExists: "يوجد مستخدم بهذا رقم الهاتف بالفعل."
+EmailAlreadyExists: "يوجد مستخدم بهذا البريد الإلكتروني بالفعل."
+InvalidCredentials: "البريد الإلكتروني أو كلمة المرور غير صحيحة."
+RoleCreated: "تم إنشاء الدور بنجاح."
+RoleNotFound: "الدور غير موجود."
+RolesAssigned: "تم تعيين الأدوار بنجاح."

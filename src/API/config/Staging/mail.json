@@ -1,0 +1,13 @@
+{
+  "Mail": {
+    // Keep Mail__Password in a secret/env var.
+    "Driver": "Smtp",
+    "Host": "smtp.staging.example.com",
+    "Port": 587,
+    "UseStartTls": true,
+    "Username": "staging@template-net10.example.com",
+    "Password": "__SET_IN_SECRET__",
+    "FromAddress": "no-reply@staging.template-net10.example.com",
+    "FromName": "Template-net10 (Staging)"
+  }
+}

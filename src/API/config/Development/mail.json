@@ -1,0 +1,16 @@
+{
+  "Mail": {
+    // Driver — available values:
+    //   "Log"  : writes the rendered message to the logger instead of sending (default; ideal for local dev).
+    //   "Smtp" : sends over SMTP via MailKit using the Host/Port/credentials below.
+    "Driver": "Log",
+    "Host": "127.0.0.1",
+    "Port": 2525,
+    "UseStartTls": true,                   // true => STARTTLS (port 587); false => auto-negotiate.
+    "Username": "",                        // Leave blank for anonymous relays; otherwise SMTP auth user.
+    "Password": "",
+    "FromAddress": "no-reply@template-net10.local",
+    "FromName": "Template-net10",
+    "TimeoutSeconds": 30
+  }
+}

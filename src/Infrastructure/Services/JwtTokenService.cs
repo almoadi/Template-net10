@@ -17,7 +17,7 @@ public sealed class JwtTokenService : IJwtTokenService
     public JwtTokenService(IOptions<JwtOptions> options) => _options = options.Value;
 
     public (string AccessToken, DateTime ExpiresAtUtc) GenerateToken(
-        int userId, IEnumerable<string> permissions)
+        int userId, IEnumerable<string> roles, IEnumerable<string> permissions)
     {
         var expiresAt = DateTime.UtcNow.AddMinutes(_options.ExpiryMinutes);
 
@@ -28,6 +28,7 @@ public sealed class JwtTokenService : IJwtTokenService
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         };
 
+        claims.AddRange(roles.Select(r => new Claim(ClaimTypes.Role, r)));
         claims.AddRange(permissions.Select(p => new Claim(PermissionConstants.ClaimType, p)));
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecretKey));

@@ -1,0 +1,11 @@
+{
+  "Database": {
+    // Staging — production-like. Keep the real password in a secret/env var:
+    //   ConnectionStrings__DefaultConnection  or  Database__ConnectionString
+    "ConnectionString": "Server=staging-sql;Database=Template_net10;User Id=app;Password=__SET_IN_SECRET__;TrustServerCertificate=true;MultipleActiveResultSets=true;encrypt=true;",
+    "EnableDetailedErrors": false,
+    "EnableSensitiveDataLogging": false,
+    "CommandTimeoutSeconds": 30,
+    "MaxRetryCount": 5
+  }
+}

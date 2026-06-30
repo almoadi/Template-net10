@@ -1,0 +1,11 @@
+{
+  "Database": {
+    // Production — supply the connection string from a vault/env var; never commit it.
+    // Leaving ConnectionString blank falls back to ConnectionStrings:DefaultConnection.
+    "ConnectionString": "",
+    "EnableDetailedErrors": false,
+    "EnableSensitiveDataLogging": false,
+    "CommandTimeoutSeconds": 60,
+    "MaxRetryCount": 5
+  }
+}

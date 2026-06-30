@@ -18,11 +18,14 @@ public static class MiddlewarePipelineExtensions
             app.UseSwaggerUI();
         }
 
+        app.UseRequestLocalization();
         app.UseHttpsRedirection();
         app.UseCors(CorsServiceExtensions.ClientCorsPolicy);
         app.UseRateLimiter();
         app.UseAuthentication();
         app.UseAuthorization();
+
+        app.UseAppHangfire();
 
         app.MapControllers();
         app.MapDefaultEndpoints();
@@ -30,7 +33,7 @@ public static class MiddlewarePipelineExtensions
         return app;
     }
 
-    /// <summary>Applies migrations and seeds baseline data; logs and continues if the DB is unreachable.</summary>
+    /// <summary>Applies migrations and seeds baseline data; logs and continues so the app still starts.</summary>
     public static async Task MigrateAndSeedAsync(this IServiceProvider services)
     {
         using var scope = services.CreateScope();
@@ -39,13 +42,18 @@ public static class MiddlewarePipelineExtensions
 
         try
         {
+            // MigrateAsync creates the database if it does not exist, then applies pending migrations.
             var initializer = provider.GetRequiredService<ApplicationDbInitializer>();
             await initializer.MigrateAsync();
             await provider.SeedDatabaseAsync();
         }
         catch (Exception ex)
         {
-            logger.LogWarning(ex, "Database migrate/seed skipped — the database is unavailable.");
+            logger.LogError(ex,
+                "Database migrate/seed failed. Check the connection string in config/database.json and that " +
+                "SQL Server is reachable. If the dev schema is out of sync, reset it: " +
+                "dotnet ef database drop -f --project src/Infrastructure --startup-project src/API && " +
+                "dotnet ef database update --project src/Infrastructure --startup-project src/API");
         }
     }
 }

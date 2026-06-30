@@ -1,0 +1,7 @@
+{
+  "Queue": {
+    // Dashboard off in production (or protect it behind auth before enabling).
+    "DashboardEnabled": false,
+    "WorkerCount": 20
+  }
+}

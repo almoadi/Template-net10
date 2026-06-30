@@ -1,0 +1,11 @@
+{
+  "Database": {
+    // Provider: SQL Server (Microsoft.EntityFrameworkCore.SqlServer).
+    // ConnectionString — if left blank, falls back to ConnectionStrings:DefaultConnection.
+    "ConnectionString": "Server=.;Database=Template_net10;User Id=sa;Password=P@ss@321;Trusted_Connection=False;MultipleActiveResultSets=true;TrustServerCertificate=true;encrypt=false;Column Encryption Setting=Enabled;",
+    "EnableDetailedErrors": false,         // Verbose EF errors — keep false in production.
+    "EnableSensitiveDataLogging": false,   // Logs parameter values — keep false in production.
+    "CommandTimeoutSeconds": 30,
+    "MaxRetryCount": 3                      // EnableRetryOnFailure attempts for transient faults.
+  }
+}

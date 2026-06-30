@@ -1,0 +1,7 @@
+{
+  "Cache": {
+    "Driver": "Redis",
+    "RedisConnection": "staging-redis:6379",
+    "DefaultExpirationMinutes": 10
+  }
+}

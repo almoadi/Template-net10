@@ -1,0 +1,13 @@
+{
+  "Queue": {
+    // Driver — available values:
+    //   "Hangfire" : background jobs persisted in SQL Server (uses the Database connection string).
+    // Background processing supports fire-and-forget, delayed, and recurring jobs.
+    "Driver": "Hangfire",
+    "DashboardEnabled": true,                // Expose the Hangfire dashboard UI.
+    "DashboardPath": "/hangfire",
+    "WorkerCount": 0,                        // 0 => Hangfire default (Environment.ProcessorCount * 5).
+    "Queues": [ "default", "emails" ],       // Queues this server processes, in priority order.
+    "SchemaName": "HangFire"                 // SQL schema Hangfire creates for its tables.
+  }
+}

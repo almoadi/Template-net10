@@ -1,0 +1,11 @@
+{
+  "Cache": {
+    // Driver — available values:
+    //   "Memory" : in-process IDistributedMemoryCache (default; no external server needed).
+    //   "Redis"  : distributed cache via StackExchange.Redis (set RedisConnection below).
+    "Driver": "Memory",
+    "RedisConnection": "",                 // e.g. "localhost:6379" — required when Driver is "Redis".
+    "InstanceName": "Template-net10:",     // Key prefix applied to all Redis entries.
+    "DefaultExpirationMinutes": 5
+  }
+}
