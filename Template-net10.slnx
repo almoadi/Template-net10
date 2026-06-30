@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Template-net10.AppHost/Template-net10.AppHost.csproj" />
+  <Project Path="Template-net10.ServiceDefaults/Template-net10.ServiceDefaults.csproj" />
+  <Project Path="Template-net10/Template-net10.csproj" />
+</Solution>
