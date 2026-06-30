@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Template_net10.API.Controllers;
 using Template_net10.Application.Auth.Users;
+using Template_net10.Application.Auth.Users.Commands.AssignRoles;
 using Template_net10.Application.Auth.Users.Commands.CreateUser;
 using Template_net10.Application.Auth.Users.Queries.GetUserById;
 using Template_net10.Application.Auth.Users.Queries.SearchUsers;
@@ -32,4 +33,14 @@ public sealed class UsersController : ApiControllerBase
     public async Task<ActionResult<PagedApiResponseDto<UserDto>>> Search(
         [FromQuery] SearchUsersQuery query)
         => await Sender.Send(query);
+
+    [HasPermission(AuthPermissionCodes.UsersWrite)]
+    [HttpPut("{id:int}/roles")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ApiResponseDto<MessageDto>))]
+    public async Task<ActionResult<ApiResponseDto<MessageDto>>> AssignRoles(
+        [FromRoute] int id, [FromBody] AssignRolesCommand command)
+    {
+        command.UserId = id;                // route value always wins
+        return await Sender.Send(command);
+    }
 }

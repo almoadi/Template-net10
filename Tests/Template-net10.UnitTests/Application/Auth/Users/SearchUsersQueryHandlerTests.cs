@@ -15,7 +15,7 @@ public sealed class SearchUsersQueryHandlerTests
         await using var context = TestDbContextFactory.Create();
         for (var i = 1; i <= 25; i++)
         {
-            context.Users.Add(User.Create($"User{i:00}", "اسم", $"+96650000{i:0000}", "hash"));
+            context.Users.Add(User.Create($"User{i:00}", "اسم", $"user{i:00}@example.com", $"+96650000{i:0000}", "hash"));
         }
 
         await context.SaveChangesAsync();
@@ -34,8 +34,8 @@ public sealed class SearchUsersQueryHandlerTests
     public async Task Filters_by_search_term()
     {
         await using var context = TestDbContextFactory.Create();
-        context.Users.Add(User.Create("Alice", "اسم", "+966500000001", "hash"));
-        context.Users.Add(User.Create("Bob", "اسم", "+966500000002", "hash"));
+        context.Users.Add(User.Create("Alice", "اسم", "alice@example.com", "+966500000001", "hash"));
+        context.Users.Add(User.Create("Bob", "اسم", "bob@example.com", "+966500000002", "hash"));
         await context.SaveChangesAsync();
 
         var handler = new SearchUsersQueryHandler(context);
