@@ -17,6 +17,8 @@ public sealed class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<Permission> Permissions => Set<Permission>();
 
+    public DbSet<UserSession> UserSessions => Set<UserSession>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);

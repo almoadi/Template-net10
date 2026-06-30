@@ -26,6 +26,7 @@ src/Application     # CQRS use cases, abstractions, behaviours, DTOs — depends
 src/Infrastructure  # EF Core, services, auth, seeders, jobs — implements Application/Domain abstractions
 src/API             # ASP.NET host, controllers, startup wiring, config/ + resources/
 Tests/Template-net10.UnitTests   # NUnit
+tools/Do                         # `do` CLI — project tooling (rename, key:generate)
 Template-net10.AppHost           # Aspire orchestrator (runs the API)
 Template-net10.ServiceDefaults   # Aspire telemetry/health/resilience
 ```

@@ -1,9 +1,11 @@
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using Moq;
 using NUnit.Framework;
 using Template_net10.Application.Abstractions.Security;
 using Template_net10.Domain.Auth.Entities;
+using Template_net10.Infrastructure.Options;
 using Template_net10.Infrastructure.Services;
 using Template_net10.UnitTests.Common;
 
@@ -12,6 +14,8 @@ namespace Template_net10.UnitTests.Infrastructure.Auth;
 [TestFixture]
 public sealed class AuthServiceTests
 {
+    private static IOptions<JwtOptions> JwtOptions() =>
+        Options.Create(new JwtOptions { RefreshTokenExpiryDays = 30 });
     [Test]
     public async Task Attempt_with_valid_credentials_issues_token_with_roles_and_permissions()
     {
@@ -46,7 +50,7 @@ public sealed class AuthServiceTests
             .Returns(("token", DateTime.UtcNow.AddHours(1)));
 
         var auth = new AuthService(
-            new Mock<IHttpContextAccessor>().Object, context, hasher.Object, tokenService.Object);
+            new Mock<IHttpContextAccessor>().Object, context, hasher.Object, tokenService.Object, JwtOptions());
 
         var result = await auth.Attempt("admin@example.com", "secret", CancellationToken.None);
 
@@ -67,7 +71,7 @@ public sealed class AuthServiceTests
         hasher.Setup(h => h.Verify(It.IsAny<string>(), It.IsAny<string>())).Returns(false);
 
         var auth = new AuthService(
-            new Mock<IHttpContextAccessor>().Object, context, hasher.Object, new Mock<IJwtTokenService>().Object);
+            new Mock<IHttpContextAccessor>().Object, context, hasher.Object, new Mock<IJwtTokenService>().Object, JwtOptions());
 
         var result = await auth.Attempt("admin@example.com", "wrong", CancellationToken.None);
 
@@ -85,7 +89,7 @@ public sealed class AuthServiceTests
         hasher.Setup(h => h.Verify("stored-hash", "secret")).Returns(true);
 
         var auth = new AuthService(
-            new Mock<IHttpContextAccessor>().Object, context, hasher.Object, new Mock<IJwtTokenService>().Object);
+            new Mock<IHttpContextAccessor>().Object, context, hasher.Object, new Mock<IJwtTokenService>().Object, JwtOptions());
 
         (await auth.Validate("admin@example.com", "secret", CancellationToken.None)).Should().BeTrue();
         (await auth.Validate("admin@example.com", "nope", CancellationToken.None)).Should().BeFalse();

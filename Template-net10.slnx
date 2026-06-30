@@ -12,4 +12,7 @@
     <Project Path="Template-net10.AppHost/Template-net10.AppHost.csproj" />
     <Project Path="Template-net10.ServiceDefaults/Template-net10.ServiceDefaults.csproj" />
   </Folder>
+  <Folder Name="/tools/">
+    <Project Path="tools/Do/Template-net10.Tools.csproj" />
+  </Folder>
 </Solution>

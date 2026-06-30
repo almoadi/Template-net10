@@ -15,7 +15,7 @@ public static class MiddlewarePipelineExtensions
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
-            app.UseSwaggerUI();
+            app.UseSwaggerUI(o => o.EnablePersistAuthorization());
         }
 
         app.UseRequestLocalization();

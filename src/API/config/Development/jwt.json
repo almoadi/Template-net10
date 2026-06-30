@@ -4,7 +4,7 @@
     "Audience": "Template-net10.Client",
     // SecretKey — HMAC-SHA256 signing key; MUST be >= 32 chars. Replace with a real secret
     // stored in user-secrets / environment variables / a vault. Never commit production secrets.
-    "SecretKey": "REPLACE_WITH_A_SECURE_64_CHAR_SECRET_KEY_value_change_me_please_0123",
+    "SecretKey": "qN8tCxUKtYFvDEMir3F7EtYFvMexFWtRy6Zla14qrjXlmnf5hjsnS3Q0UQr0QmYq",
     "ExpiryMinutes": 60
   }
 }

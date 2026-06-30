@@ -54,6 +54,7 @@ Template-net10/
 │   └── API/                              # host, controllers, startup wiring
 ├── Tests/
 │   └── Template-net10.UnitTests/         # NUnit tests
+├── tools/Do/                             # `do` CLI — project tooling (rename, key:generate)
 ├── Template-net10.AppHost/               # Aspire orchestrator (runs the API)
 └── Template-net10.ServiceDefaults/       # Aspire shared telemetry/health/resilience
 ```
@@ -93,7 +94,7 @@ Domain/
 │   ├── LengthConstants.cs                # shared string lengths (schema + validators stay in sync)
 │   └── Exceptions/                       # BadRequest / ItemNotFound / ForbiddenAccess / TooManyRequests
 └── Auth/
-    ├── Entities/                         # User, Role, Permission, UserRole, RolePermission
+    ├── Entities/                         # User, Role, Permission, UserRole, RolePermission, UserSession
     └── Constants/                        # AuthPermissionCodes, AuthRoles, PermissionRegistry
 ```
 
@@ -117,7 +118,7 @@ Application/
 │   └── Extensions/                       # PaginationExtensions, ValidationRuleExtensions
 ├── DependencyInjection.cs                # AddApplication()
 └── Auth/                                 # feature area
-    ├── Authentication/Commands/Login/
+    ├── Authentication/                    # Login, RefreshToken, Logout, LogoutAll, GetMySessions
     ├── Users/{Commands,Queries}/...
     ├── Roles/{Commands,Queries}/...
     └── Permissions/Queries/...
@@ -219,8 +220,14 @@ paging behaviour in one place. Defaults: page size 20, max 100.
 (many-to-many via `RolePermission`).
 
 - **Login** ([`LoginCommand`](../src/Application/Auth/Authentication/Commands/Login/LoginCommand.cs))
-  is by **email + password**, and delegates to `Auth.Attempt(...)` (see §6.1). The token carries the
-  user's roles as `role` claims and their permissions as `permission` claims.
+  is by **email + password**, and delegates to `Auth.Attempt(...)` (see §6.1). It returns an
+  `AuthTokenDto` with a short-lived **access token** (JWT carrying the user's `role` and `permission`
+  claims) plus a long-lived **refresh token**.
+- **Sessions & refresh tokens.** Each login creates a [`UserSession`](../src/Domain/Auth/Entities/UserSession.cs)
+  row storing a **hashed** refresh token, expiry, and device/IP/user-agent. `POST /api/auth/refresh`
+  rotates the refresh token and issues a new access token; `POST /api/auth/logout` revokes the current
+  session; `POST /api/auth/logout-all` revokes every session of the user; `GET /api/auth/sessions`
+  lists the caller's active sessions. Refresh-token lifetime is `Jwt:RefreshTokenExpiryDays`.
 - **Authorize** endpoints with `[HasPermission(AuthPermissionCodes.UsersWrite)]`. The attribute
   encodes the permission into a policy name resolved on demand by
   [`PermissionPolicyProvider`](../src/Infrastructure/Authorization/PermissionPolicyProvider.cs), and
@@ -260,8 +267,11 @@ two ways to use it:
 | `Auth.User(ct)` | `Auth::user()` | Loads the user (`CurrentUserDto`) from the DB. |
 | `Auth.Roles` / `Auth.HasRole(r)` | `$user->hasRole()` | Roles from the token. |
 | `Auth.Permissions` / `Auth.Can(p)` | `$user->can()` | Permissions from the token. |
-| `Auth.Attempt(email, pw, ct)` | `Auth::attempt()` | Verify credentials → issue JWT (or `null`). |
+| `Auth.Attempt(email, pw, ct)` | `Auth::attempt()` | Verify credentials → create a session + issue access/refresh tokens (or `null`). |
 | `Auth.Validate(email, pw, ct)` | `Auth::validate()` | Verify credentials without issuing a token. |
+| `Auth.Refresh(refreshToken, ct)` | — | Rotate the refresh token and issue a fresh access token (or `null`). |
+| `Auth.Logout(refreshToken, ct)` | `Auth::logout()` | Revoke the session behind a refresh token. |
+| `Auth.LogoutAll(ct)` | — | Revoke every active session of the current user. |
 
 ```csharp
 // Inject IAuth (preferred):
@@ -277,8 +287,9 @@ var token = await Auth.Attempt(email, password, ct);
 The backing [`AuthService`](../src/Infrastructure/Services/AuthService.cs) also implements
 `ICurrentUserService`, so it is the single source of truth for "who is the caller" across the app.
 
-> Tokens are stateless: there is no server-side `Auth.Logout()` — clients discard the token. Add a
-> token denylist if you need server-side revocation.
+> The **access token** is a stateless JWT (validate without a DB hit), while **refresh tokens** are
+> server-side sessions (`UserSession`) — so `Auth.Logout()` / `Auth.LogoutAll()` truly revoke access by
+> invalidating the session, even though the short-lived access token remains valid until it expires.
 
 ---
 
@@ -301,16 +312,19 @@ src/API/config/
 Each file carries `//` comments documenting its options and the **available driver values** — the
 .NET configuration JSON provider allows comments and trailing commas.
 
-Loading (base file required, `config/{name}.{Environment}.json` optional):
+Loading (base file required; per-environment override in a `config/{Environment}/` subfolder, optional):
 
 ```csharp
 foreach (var file in new[] { "app", "database", "cache", "mail", "jwt", "queue" })
 {
     builder.Configuration
         .AddJsonFile($"config/{file}.json", optional: false, reloadOnChange: true)
-        .AddJsonFile($"config/{file}.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+        .AddJsonFile($"config/{builder.Environment.EnvironmentName}/{file}.json", optional: true, reloadOnChange: true);
 }
 ```
+
+So `config/database.json` is the base and `config/Development/database.json`, `config/Production/mail.json`,
+etc. override per environment.
 
 Each section is bound to a strongly-typed **options** class in
 [`src/Infrastructure/Options/`](../src/Infrastructure/Options/) and registered in
@@ -531,6 +545,10 @@ dotnet run --project src/API
 # EF migrations (startup project = API, migrations live in Infrastructure)
 dotnet ef migrations add <Name> --project src/Infrastructure --startup-project src/API --output-dir Data/Migrations
 dotnet ef database update           --project src/Infrastructure --startup-project src/API
+
+# Project tooling — the `do` CLI (tools/Do)
+dotnet run --project tools/Do -- key:generate --show   # generate a fresh Jwt:SecretKey into config/jwt.json
+dotnet run --project tools/Do -- rename Acme.Shop       # rename project/folders/namespaces for a new project
 ```
 
 ---

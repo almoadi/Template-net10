@@ -45,4 +45,15 @@ public static class Auth
     public static Task<bool> Validate(
         string email, string password, CancellationToken cancellationToken = default)
         => Instance.Validate(email, password, cancellationToken);
+
+    public static Task<AuthTokenDto?> Refresh(
+        string refreshToken, CancellationToken cancellationToken = default)
+        => Instance.Refresh(refreshToken, cancellationToken);
+
+    public static Task<bool> Logout(
+        string refreshToken, CancellationToken cancellationToken = default)
+        => Instance.Logout(refreshToken, cancellationToken);
+
+    public static Task<int> LogoutAll(CancellationToken cancellationToken = default)
+        => Instance.LogoutAll(cancellationToken);
 }

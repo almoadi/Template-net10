@@ -39,4 +39,13 @@ public interface IAuth
 
     /// <summary>Verifies credentials without issuing a token. (Laravel: <c>Auth::validate()</c>)</summary>
     Task<bool> Validate(string email, string password, CancellationToken cancellationToken = default);
+
+    /// <summary>Rotates a session's refresh token and issues a fresh access token, or <c>null</c> when invalid.</summary>
+    Task<AuthTokenDto?> Refresh(string refreshToken, CancellationToken cancellationToken = default);
+
+    /// <summary>Revokes the session backing the given refresh token. Returns false when no session matches.</summary>
+    Task<bool> Logout(string refreshToken, CancellationToken cancellationToken = default);
+
+    /// <summary>Revokes every active session of the current user. Returns the number revoked.</summary>
+    Task<int> LogoutAll(CancellationToken cancellationToken = default);
 }

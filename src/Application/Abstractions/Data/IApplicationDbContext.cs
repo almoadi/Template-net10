@@ -16,5 +16,7 @@ public interface IApplicationDbContext
 
     DbSet<Permission> Permissions { get; }
 
+    DbSet<UserSession> UserSessions { get; }
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
