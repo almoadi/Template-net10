@@ -1,7 +1,7 @@
 {
   "Jwt": {
     // Provide the real key via Jwt__SecretKey (secret/env var). Never commit it.
-    "SecretKey": "qN8tCxUKtYFvDEMir3F7EtYFvMexFWtRy6Zla14qrjXlmnf5hjsnS3Q0UQr0QmYq",
+    "SecretKey": "CZVGtGAGe5WcWJWZ26EYYovHSzXthCPXdl2f1oxq1fA2BDtg1FYe46acwwyzr2jr",
     "ExpiryMinutes": 60
   }
 }

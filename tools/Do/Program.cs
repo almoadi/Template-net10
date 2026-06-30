@@ -53,7 +53,7 @@ internal static class Program
         Console.WriteLine("Template-net10 do — project tooling");
         Console.WriteLine();
         Console.WriteLine("Usage:");
-        Console.WriteLine("  do <command> [options]");
+        Console.WriteLine("  dotnet do <command> [options]");
         Console.WriteLine();
         Console.WriteLine("Available commands:");
         Console.WriteLine("  rename <NewName>      Rename the project, folders, files and namespaces.");
@@ -62,8 +62,8 @@ internal static class Program
         Console.WriteLine("                        Use --show to print the key, --length <n> to size it.");
         Console.WriteLine();
         Console.WriteLine("Examples:");
-        Console.WriteLine("  do rename Acme.Shop");
-        Console.WriteLine("  do key:generate --show");
+        Console.WriteLine("  dotnet do rename Acme.Shop");
+        Console.WriteLine("  dotnet do key:generate --show");
         Console.WriteLine();
     }
 }

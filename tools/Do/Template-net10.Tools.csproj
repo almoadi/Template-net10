@@ -8,9 +8,9 @@
     <RootNamespace>Template_net10.Tools</RootNamespace>
     <AssemblyName>Template_net10.Tools</AssemblyName>
 
-    <!-- Package as a dotnet global/local tool: `do` -->
+    <!-- Package as a dotnet CLI sub-command: `dotnet do` ('do' alone collides with the PowerShell keyword) -->
     <PackAsTool>true</PackAsTool>
-    <ToolCommandName>do</ToolCommandName>
+    <ToolCommandName>dotnet-do</ToolCommandName>
     <PackageId>Template-net10.Tools</PackageId>
     <Version>1.0.0</Version>
     <Description>CLI tooling for the Template-net10 starter kit (rename, key:generate).</Description>

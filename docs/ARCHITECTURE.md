@@ -553,7 +553,36 @@ dotnet run --project tools/Do -- rename Acme.Shop       # rename project/folders
 
 ---
 
-## 14. Golden rules (do not break)
+## 14. Project tooling — the `do` CLI
+
+A small Laravel-`artisan`-style command runner lives in [`tools/Do/`](../tools/Do/Template-net10.Tools.csproj)
+and ships as a packable **.NET tool**. It is the supported way to rebrand the starter kit and to rotate
+the JWT signing key. Full reference: [`docs/cli-do.md`](cli-do.md).
+
+| Command | Purpose |
+|---------|---------|
+| `rename <NewName>` | Rewrites file contents, file names and folder names — replacing both `Template_net10` (namespaces / assembly names) and `Template-net10` (project / folder names, JWT `Issuer`/`Audience`, email domains). Skips `bin`/`obj`/`.git`/binaries. `-y` skips the prompt. |
+| `key:generate` | Generates a strong JWT `SecretKey` into **every** `config/**/jwt.json` (base + per-environment overrides), preserving the files' comments. `--show` prints the key, `--length <n>` sizes it (min `32`). |
+
+**Run it** from a clone (`dotnet run --project tools/Do -- key:generate --show`) or install it as a
+`dotnet` sub-command and call `dotnet do …`:
+
+```powershell
+dotnet pack tools/Do/Template-net10.Tools.csproj -o ./nupkg
+dotnet tool install --global --add-source ./nupkg Template-net10.Tools
+dotnet do key:generate --show
+```
+
+> The tool's command name is `dotnet-do` (invoked as `dotnet do`) because a bare `do` collides with the
+> PowerShell `do { } while` keyword.
+
+**Structure:** [`Program.cs`](../tools/Do/Program.cs) dispatches the first argument to one static
+command class per file under [`tools/Do/Commands/`](../tools/Do/Commands/); shared root-detection and
+file-enumeration helpers live in [`Workspace.cs`](../tools/Do/Commands/Workspace.cs).
+
+---
+
+## 15. Golden rules (do not break)
 
 1. **No Repository pattern** — handlers use `IApplicationDbContext` directly.
 2. **No business logic in handlers** — it lives in Domain entities.

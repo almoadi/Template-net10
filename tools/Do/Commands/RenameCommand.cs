@@ -26,7 +26,7 @@ internal static class RenameCommand
 
         if (positional.Length == 0)
         {
-            Console.Error.WriteLine("  ERROR  Missing new name. Usage: do rename <NewName>");
+            Console.Error.WriteLine("  ERROR  Missing new name. Usage: dotnet do rename <NewName>");
             return 1;
         }
 
