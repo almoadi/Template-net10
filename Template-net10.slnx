@@ -1,5 +1,15 @@
 <Solution>
-  <Project Path="Template-net10.AppHost/Template-net10.AppHost.csproj" />
-  <Project Path="Template-net10.ServiceDefaults/Template-net10.ServiceDefaults.csproj" />
-  <Project Path="Template-net10/Template-net10.csproj" />
+  <Folder Name="/src/">
+    <Project Path="src/API/Template-net10.API.csproj" />
+    <Project Path="src/Application/Template-net10.Application.csproj" />
+    <Project Path="src/Domain/Template-net10.Domain.csproj" />
+    <Project Path="src/Infrastructure/Template-net10.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="Tests/Template-net10.UnitTests/Template-net10.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/Aspire/">
+    <Project Path="Template-net10.AppHost/Template-net10.AppHost.csproj" />
+    <Project Path="Template-net10.ServiceDefaults/Template-net10.ServiceDefaults.csproj" />
+  </Folder>
 </Solution>

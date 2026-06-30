@@ -1,27 +1,21 @@
+using Template_net10.API.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddClientCors(builder.Configuration, builder.Environment);
+builder.Services.AddApiSwagger();
+builder.Services.AddAuthRateLimiting();
+builder.Services.AddApiAuthentication(builder.Configuration);
+builder.Services.AddApplicationServices(builder.Configuration);
 
 var app = builder.Build();
 
-app.MapDefaultEndpoints();
+await app.Services.MigrateAndSeedAsync();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
+app.UseApiPipeline();
 
 app.Run();

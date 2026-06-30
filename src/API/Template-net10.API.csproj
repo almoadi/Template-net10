@@ -4,15 +4,24 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>Template_net10</RootNamespace>
+    <RootNamespace>Template_net10.API</RootNamespace>
+    <AssemblyName>Template_net10.API</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="Swashbuckle.AspNetCore" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Template-net10.ServiceDefaults\Template-net10.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\Application\Template-net10.Application.csproj" />
+    <ProjectReference Include="..\Infrastructure\Template-net10.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Template-net10.ServiceDefaults\Template-net10.ServiceDefaults.csproj" />
   </ItemGroup>
 
 </Project>

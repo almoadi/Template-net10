@@ -17,5 +17,5 @@ public class Template_net10_AppHost
     /// <summary>
     /// The path to the Aspire Host project.
     /// </summary>
-    public static string ProjectPath => """C:\Users\Osamh\source\repos\Template-net10\Template-net10.AppHost""";
+    public static string ProjectPath => """c:\Users\Osamh\source\repos\Template-net10\Template-net10.AppHost""";
 }

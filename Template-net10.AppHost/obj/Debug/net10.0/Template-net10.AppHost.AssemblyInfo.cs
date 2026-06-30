@@ -15,15 +15,15 @@ using System.Reflection;
     "dcp.exe"))]
 [assembly: System.Reflection.AssemblyMetadata("dcpextensionpaths", ("C:\\Users\\Osamh\\.nuget\\packages\\aspire.hosting.orchestration.win-x64\\13.2.4\\tools\\" +
     "ext\\"))]
-[assembly: System.Reflection.AssemblyMetadata("apphostprojectpath", "C:\\Users\\Osamh\\source\\repos\\Template-net10\\Template-net10.AppHost")]
+[assembly: System.Reflection.AssemblyMetadata("apphostprojectpath", "c:\\Users\\Osamh\\source\\repos\\Template-net10\\Template-net10.AppHost")]
 [assembly: System.Reflection.AssemblyMetadata("apphostprojectname", "Template-net10.AppHost.csproj")]
 [assembly: System.Reflection.AssemblyMetadata("aspiredashboardpath", ("C:\\Users\\Osamh\\.nuget\\packages\\aspire.dashboard.sdk.win-x64\\13.2.4\\tools\\Aspire.D" +
     "ashboard.exe"))]
-[assembly: System.Reflection.AssemblyMetadataAttribute("apphostprojectbaseintermediateoutputpath", "C:\\Users\\Osamh\\source\\repos\\Template-net10\\Template-net10.AppHost\\obj\\")]
+[assembly: System.Reflection.AssemblyMetadataAttribute("apphostprojectbaseintermediateoutputpath", "c:\\Users\\Osamh\\source\\repos\\Template-net10\\Template-net10.AppHost\\obj\\")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("Template-net10.AppHost")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+79086f900d3756b57e8b182eef3ff171cc1387b3")]
 [assembly: System.Reflection.AssemblyProductAttribute("Template-net10.AppHost")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Template-net10.AppHost")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
