@@ -56,6 +56,7 @@ internal static class RenameCommand
 
         if (!skipConfirm)
         {
+            Console.WriteLine("Tip: commit first, and close any running app/IDE that locks build output (bin/obj).");
             Console.Write("This rewrites files in place. Continue? [y/N] ");
             var answer = Console.ReadLine();
             if (answer is null || !answer.Trim().Equals("y", StringComparison.OrdinalIgnoreCase))
@@ -65,11 +66,31 @@ internal static class RenameCommand
             }
         }
 
+        // Build artifacts are the most common source of file locks (DLLs held by a build or a
+        // running app) and are regenerated on the next build — remove them up front.
+        CleanBuildArtifacts(root);
+
         var filesChanged = RewriteFileContents(root, newHyphen, newUnderscore);
-        var (filesRenamed, dirsRenamed) = RenamePaths(root, newHyphen, newUnderscore);
+        var (filesRenamed, dirsRenamed, failures) = RenamePaths(root, newHyphen, newUnderscore);
 
         Console.WriteLine();
         Console.WriteLine($"Done. {filesChanged} file(s) edited, {filesRenamed} file(s) and {dirsRenamed} folder(s) renamed.");
+
+        if (failures.Count > 0)
+        {
+            Console.Error.WriteLine();
+            Console.Error.WriteLine($"  WARNING  {failures.Count} item(s) could not be renamed (likely in use):");
+            foreach (var failure in failures)
+            {
+                Console.Error.WriteLine($"    - {Path.GetRelativePath(root, failure.Path)}  ({failure.Reason})");
+            }
+
+            Console.Error.WriteLine();
+            Console.Error.WriteLine("  Close the app/IDE locking these, then re-run the same command —");
+            Console.Error.WriteLine("  the rename is safe to re-run and skips anything already renamed.");
+            return 1;
+        }
+
         Console.WriteLine("Next: run `dotnet build` to verify.");
         return 0;
     }
@@ -107,19 +128,29 @@ internal static class RenameCommand
         return changed;
     }
 
-    private static (int Files, int Dirs) RenamePaths(string root, string newHyphen, string newUnderscore)
+    private static (int Files, int Dirs, List<Failure> Failures) RenamePaths(
+        string root, string newHyphen, string newUnderscore)
     {
         var files = 0;
         var dirs = 0;
+        var failures = new List<Failure>();
 
         // Files first, then directories (deepest-first via EnumerateDirectories ordering).
         foreach (var file in Workspace.EnumerateFiles(root).ToList())
         {
             var target = ReplaceLeafName(file, newHyphen, newUnderscore);
-            if (target is not null)
+            if (target is null)
             {
-                File.Move(file, target);
+                continue;
+            }
+
+            if (TryMove(file, target, isDirectory: false, out var reason))
+            {
                 files++;
+            }
+            else
+            {
+                failures.Add(new Failure(file, reason));
             }
         }
 
@@ -131,15 +162,74 @@ internal static class RenameCommand
             }
 
             var target = ReplaceLeafName(dir, newHyphen, newUnderscore);
-            if (target is not null)
+            if (target is null)
             {
-                Directory.Move(dir, target);
+                continue;
+            }
+
+            if (TryMove(dir, target, isDirectory: true, out var reason))
+            {
                 dirs++;
+            }
+            else
+            {
+                failures.Add(new Failure(dir, reason));
             }
         }
 
-        return (files, dirs);
+        return (files, dirs, failures);
     }
+
+    /// <summary>Moves a file or directory, never throwing: returns false with a reason on failure.</summary>
+    private static bool TryMove(string source, string target, bool isDirectory, out string reason)
+    {
+        if (isDirectory ? Directory.Exists(target) : File.Exists(target))
+        {
+            reason = "target already exists";
+            return false;
+        }
+
+        try
+        {
+            if (isDirectory)
+            {
+                Directory.Move(source, target);
+            }
+            else
+            {
+                File.Move(source, target);
+            }
+
+            reason = string.Empty;
+            return true;
+        }
+        catch (Exception ex)
+        {
+            reason = ex.GetType().Name;
+            return false;
+        }
+    }
+
+    /// <summary>Best-effort deletion of every <c>bin</c>/<c>obj</c> folder; locked ones are left in place.</summary>
+    private static void CleanBuildArtifacts(string root)
+    {
+        foreach (var name in new[] { "bin", "obj" })
+        {
+            foreach (var dir in Directory.EnumerateDirectories(root, name, SearchOption.AllDirectories).ToList())
+            {
+                try
+                {
+                    Directory.Delete(dir, recursive: true);
+                }
+                catch
+                {
+                    // Locked or already gone — the rename pass will report it if it blocks a move.
+                }
+            }
+        }
+    }
+
+    private sealed record Failure(string Path, string Reason);
 
     private static string? ReplaceLeafName(string path, string newHyphen, string newUnderscore)
     {
