@@ -12,8 +12,7 @@ namespace Template_net10.Tools.Commands;
 internal static partial class KeyGenerateCommand
 {
     private const int DefaultLength = 64;
-    private const string Alphabet =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    private const string Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
     public static int Run(string[] args)
     {

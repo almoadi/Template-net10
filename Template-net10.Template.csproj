@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Packaging-only project. It turns this repository into a `dotnet new` template pack (.nupkg).
+    It is intentionally NOT part of Template-net10.slnx and produces no build output.
+    See docs/template-install.md for usage.
+  -->
+  <PropertyGroup>
+    <PackageType>Template</PackageType>
+    <PackageId>Template.Net10.CleanArchitecture</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Title>Template-net10 Clean Architecture Starter</Title>
+    <Authors>Template-net10</Authors>
+    <Description>Production-ready .NET 10 Clean Architecture + CQRS + MediatR backend wired into .NET Aspire.</Description>
+    <PackageTags>dotnet-new;template;clean-architecture;cqrs;aspire;webapi</PackageTags>
+
+    <TargetFramework>net10.0</TargetFramework>
+    <IncludeContentInPack>true</IncludeContentInPack>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <ContentTargetFolders>content</ContentTargetFolders>
+    <EnableDefaultItems>false</EnableDefaultItems>
+    <NoWarn>$(NoWarn);NU5128</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="**\*"
+             Exclude="**\bin\**;**\obj\**;**\.vs\**;**\.vscode\**;**\.idea\**;**\.git\**;**\node_modules\**;**\TestResults\**;nupkg\**;Template-net10.Template.csproj" />
+    <Compile Remove="**\*" />
+  </ItemGroup>
+
+</Project>

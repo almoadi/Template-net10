@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Template-net10",
+  "classifications": [ "Web", "API", "Clean Architecture", "CQRS", "Aspire" ],
+  "identity": "Template.Net10.CleanArchitecture",
+  "name": "Template-net10 Clean Architecture Starter",
+  "shortName": "cleanapi",
+  "description": "Production-ready .NET 10 Clean Architecture + CQRS + MediatR backend wired into .NET Aspire, with RBAC, Laravel-style config/seeders, localization, mail and background jobs.",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "Template-net10",
+  "preferNameDirectory": true,
+  "symbols": {
+    "underscoreName": {
+      "type": "derived",
+      "valueSource": "name",
+      "valueTransform": "toUnderscore",
+      "replaces": "Template_net10",
+      "fileRename": "Template_net10"
+    },
+    "kebabLowerName": {
+      "type": "derived",
+      "valueSource": "name",
+      "valueTransform": "toKebabLower",
+      "replaces": "template-net10"
+    }
+  },
+  "forms": {
+    "toUnderscore": {
+      "identifier": "replace",
+      "pattern": "[.\\-]",
+      "replacement": "_"
+    },
+    "toKebabLower": {
+      "identifier": "chain",
+      "steps": [ "lowerCaseInvariant", "kebabReplace" ]
+    },
+    "kebabReplace": {
+      "identifier": "replace",
+      "pattern": "[._]",
+      "replacement": "-"
+    }
+  },
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "exclude": [
+            "**/bin/**",
+            "**/obj/**",
+            "**/.vs/**",
+            "**/.vscode/**",
+            "**/.idea/**",
+            "**/.git/**",
+            "**/node_modules/**",
+            "**/TestResults/**",
+            "nupkg/**",
+            ".template.config/**",
+            "Template-net10.Template.csproj"
+          ]
+        }
+      ]
+    }
+  ]
+}
