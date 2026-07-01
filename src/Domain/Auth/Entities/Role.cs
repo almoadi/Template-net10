@@ -1,4 +1,6 @@
+using Template_net10.Domain.Auth.Events;
 using Template_net10.Domain.Common;
+using Template_net10.Domain.Common.Exceptions;
 
 namespace Template_net10.Domain.Auth.Entities;
 
@@ -6,7 +8,7 @@ namespace Template_net10.Domain.Auth.Entities;
 /// A named collection of <see cref="Permission"/>s assignable to users. System roles
 /// (<see cref="IsSystem"/>) are seeded and protected from deletion.
 /// </summary>
-public class Role : BaseEntity
+public class Role : BaseEntity, IEmitsDeletedEvent
 {
     private readonly List<RolePermission> _rolePermissions = new();
     private readonly List<UserRole> _userRoles = new();
@@ -41,7 +43,17 @@ public class Role : BaseEntity
         return this;
     }
 
-    /// <summary>Replaces the role's permissions with exactly the supplied set.</summary>
+    /// <summary>Soft-deletes the role. System roles cannot be deleted.</summary>
+    public override void SoftDelete()
+    {
+        if (IsSystem)
+        {
+            throw new BadRequestException("System roles cannot be deleted.");
+        }
+
+        base.SoftDelete();
+    }
+
     public void SetPermissions(IEnumerable<Permission> permissions)
     {
         _rolePermissions.Clear();
@@ -53,7 +65,6 @@ public class Role : BaseEntity
         UpdatedAt = DateTime.UtcNow;
     }
 
-    /// <summary>Grants a single permission if not already present.</summary>
     public void AddPermission(Permission permission)
     {
         var exists = _rolePermissions.Any(rp =>
@@ -66,4 +77,6 @@ public class Role : BaseEntity
             UpdatedAt = DateTime.UtcNow;
         }
     }
+
+    public void EmitDeletedEvent() => RaiseDomainEvent(new RoleDeletedDomainEvent(Id, NameEn));
 }

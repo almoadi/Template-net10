@@ -55,4 +55,16 @@ public sealed class UserTests
 
         user.IsActive.Should().BeFalse();
     }
+
+    [Test]
+    public void SoftDelete_deactivates_and_marks_deleted()
+    {
+        var user = NewUser();
+
+        user.SoftDelete();
+
+        user.IsDeleted.Should().BeTrue();
+        user.IsActive.Should().BeFalse();
+        user.DeletedAt.Should().NotBeNull();
+    }
 }

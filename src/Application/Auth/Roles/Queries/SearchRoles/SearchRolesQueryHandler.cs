@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Template_net10.Application.Auth.Roles;
 using Template_net10.Application.Abstractions.Data;
 using Template_net10.Application.Common.Extensions;
 using Template_net10.Application.Common.Models;
@@ -16,8 +17,9 @@ public sealed class SearchRolesQueryHandler
     public Task<PagedApiResponseDto<RoleDto>> Handle(SearchRolesQuery query, CancellationToken ct)
         => _context.Roles
             .AsNoTracking()
-            .Where(x => string.IsNullOrWhiteSpace(query.Search) || x.NameEn.Contains(query.Search))
-            .OrderBy(x => x.Id)
+            .SearchRoles(query.Search)
+            .ExcludeSystemRoles()
+            .OrderById()
             .Select(x => new RoleDto
             {
                 Id = x.Id,

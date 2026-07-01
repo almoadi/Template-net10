@@ -16,7 +16,20 @@ public interface IApplicationDbContext
 }
 ```
 
-Implemented by `ApplicationDbContext` in Infrastructure.
+Implemented by `ApplicationDbContext` in Infrastructure (extends `GlobalFilteredDbContext`).
+
+## BaseEntity & global scopes
+
+Every persisted entity extends [`BaseEntity`](../../src/Domain/Common/BaseEntity.cs), which carries:
+
+| Column | Purpose |
+|--------|---------|
+| `DeletedAt` | Soft-delete global filter (hidden when set) |
+| `IsActive` | Local `ActiveOnly()` scope via `IActivatable` |
+
+The soft-delete global filter applies automatically to all `BaseEntity` types.
+
+**Soft delete:** `entity.SoftDelete()` then `SaveChangesAsync`. Bypass with `.WithTrashed()` / `.OnlyTrashed()`.
 
 ## Handler Patterns
 
@@ -26,6 +39,7 @@ Implemented by `ApplicationDbContext` in Infrastructure.
 var user = User.Create(...);
 _context.Users.Add(user);
 await _context.SaveChangesAsync(ct);
+// Created/deleted domain events dispatch via DomainEventDispatchInterceptor
 ```
 
 **Read (query):**
@@ -33,14 +47,44 @@ await _context.SaveChangesAsync(ct);
 ```csharp
 return await _context.Users
     .AsNoTracking()
-    .Where(x => x.Id == id)
+    .SearchUsers(term)
+    .ActiveOnly()
+    .OrderById()
     .Select(x => new UserDto { ... })
     .FirstOrDefaultAsync(ct);
 ```
 
+**Roles:**
+
+```csharp
+_context.Roles
+    .SearchRoles(term)
+    .ExcludeSystemRoles()
+    .OrderById()
+```
+
+## Generic local scopes
+
+[`QueryableScopeExtensions`](../../src/Application/Common/Extensions/QueryableScopeExtensions.cs) work on any entity:
+
+`Search`, `OrderById`, `ActiveOnly`, `WhereEquals`, `WhereIn`, `WhereId`, `CreatedAfter`, `WithoutGlobalScopes`, `WithTrashed`, `OnlyTrashed`, …
+
+## Eloquent equivalents
+
+| Laravel Eloquent | EF Core in this project |
+|------------------|-------------------------|
+| Observer `created` / `deleted` | `IEmitsCreatedEvent` / `IEmitsDeletedEvent` + handlers |
+| Global soft delete | `BaseEntity.DeletedAt` + `GlobalFilteredDbContext` |
+| Local scope `scopeX` | `QueryableScopeExtensions` |
+| User / Role scopes | `UserScopeExtensions` / `RoleScopeExtensions` |
+| `withTrashed()` / `onlyTrashed()` | `WithTrashed()` / `OnlyTrashed()` |
+
+See [Architecture §10](/docs/architecture#10-eloquent-style-ef-infrastructure) for full details.
+
 ## Configurations
 
 EF entity configurations live in `Infrastructure/Configurations/Auth/` as `IEntityTypeConfiguration<T>` classes.
+Shared columns use `BaseEntityConfiguration.Configure(builder)`.
 
 ## Startup
 

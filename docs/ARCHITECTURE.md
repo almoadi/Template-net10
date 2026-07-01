@@ -90,7 +90,7 @@ transitions live here — never in handlers.
 ```
 Domain/
 ├── Common/
-│   ├── BaseEntity.cs                     # Id + CreatedAt/UpdatedAt
+│   ├── BaseEntity.cs                     # Id, DeletedAt, IsActive, audit timestamps, domain events
 │   ├── LengthConstants.cs                # shared string lengths (schema + validators stay in sync)
 │   └── Exceptions/                       # BadRequest / ItemNotFound / ForbiddenAccess / TooManyRequests
 └── Auth/
@@ -139,7 +139,7 @@ Infrastructure/
 ├── Authorization/                        # [HasPermission], policy provider, HangfireDashboardAuthorizationFilter
 ├── Middleware/                           # ExceptionHandlingMiddleware
 ├── Options/                              # AppOptions, DatabaseOptions, CacheOptions, MailOptions, JwtOptions
-├── Seeders/                              # Laravel-style seeders (see §10)
+├── Seeders/                              # Laravel-style seeders (see §11)
 └── DependencyInjection.cs                # AddInfrastructure() — uses Scrutor for service scanning
 ```
 
@@ -458,7 +458,56 @@ public interface IJobScheduler
 
 ---
 
-## 10. Seeding (Laravel-style)
+## 10. Eloquent-style EF infrastructure
+
+This starter kit uses **EF Core**, not Laravel Eloquent. The patterns below mirror the important
+Eloquent features called out in the [Laravel Eloquent docs](https://laravel.com/docs/eloquent) while
+keeping Clean Architecture + CQRS intact.
+
+### Domain events (Eloquent Events / Observers)
+
+| Eloquent | Template-net10 |
+|----------|----------------|
+| `created` / `updated` / `deleted` | `IDomainEvent` raised on the entity; `IDomainEventHandler<T>` for side effects |
+| `Observer` class | One handler per event (e.g. [`UserCreatedDomainEventHandler`](../src/Application/Auth/Users/Events/UserCreatedDomainEventHandler.cs)) |
+| Business rules in observers | **Not allowed** — rules stay in Domain entities; handlers do email/cache/integration only |
+
+Flow: command handler mutates entity → `SaveChangesAsync` →
+[`DomainEventDispatchInterceptor`](../src/Infrastructure/Data/DomainEventDispatchInterceptor.cs)
+calls `IEmitsCreatedEvent.EmitCreatedEvent()` for new rows, then
+[`IDomainEventDispatcher`](../src/Application/Abstractions/Messaging/IDomainEventDispatcher.cs)
+invokes handlers.
+
+Entities that emit a `created` event implement [`IEmitsCreatedEvent`](../src/Domain/Common/IEmitsCreatedEvent.cs).
+Other lifecycle events: call `RaiseDomainEvent(...)` on the entity before or after save; the interceptor
+dispatches all pending events after a successful save.
+
+### Query scopes
+
+Every entity inherits global-scope columns from [`BaseEntity`](../src/Domain/Common/BaseEntity.cs):
+`DeletedAt`, `IsActive`, plus `SoftDelete()` / `Restore()` / `Activate()` / `Deactivate()`.
+
+**Global scope** (automatic — Eloquent soft delete) applies to **all** `BaseEntity` types via
+[`GlobalFilteredDbContext`](../src/Infrastructure/Data/GlobalFilteredDbContext.cs): hides rows where
+`DeletedAt` is set.
+
+| Eloquent | Template-net10 |
+|----------|----------------|
+| `withoutGlobalScope()` / `withTrashed()` | [`WithoutGlobalScopes()`](../src/Application/Common/Extensions/QueryableScopeExtensions.cs) or `WithTrashed()` |
+| `onlyTrashed()` | `OnlyTrashed()` (any `BaseEntity`) |
+| Local scope (`scopeSearch`, …) | Generic [`QueryableScopeExtensions`](../src/Application/Common/Extensions/QueryableScopeExtensions.cs) on any `IQueryable<T>` |
+| User search / soft-delete | [`UserScopeExtensions`](../src/Application/Auth/Users/UserScopeExtensions.cs): `SearchUsers`, `WithDeletedUsers`, `OnlyDeletedUsers` |
+| Role search / system roles | [`RoleScopeExtensions`](../src/Application/Auth/Roles/RoleScopeExtensions.cs): `SearchRoles`, `ExcludeSystemRoles`, `WithDeletedRoles`, `OnlyDeletedRoles` |
+
+**Soft delete in domain:** call `entity.SoftDelete()` (override on `User`/`Role` for extra rules). Deleted
+entities emit `IEmitsDeletedEvent` after save (see `UserDeletedDomainEvent`, `RoleDeletedDomainEvent`).
+
+**Do not add:** Active Record (`Model::find()->save()`), mass-assignment (`$fillable`), or a Repository
+layer — handlers use `IApplicationDbContext` directly (see golden rules §16).
+
+---
+
+## 11. Seeding (Laravel-style)
 
 Seeding mirrors Laravel's `DatabaseSeeder` + `$this->call(...)`:
 
@@ -480,7 +529,7 @@ in `DatabaseSeeder.RunAsync()`, and resolving any dependencies through its const
 
 ---
 
-## 11. Startup composition
+## 12. Startup composition
 
 [`Program.cs`](../src/API/Program.cs) is a thin composition root; behaviour lives in focused
 extensions under `src/API/Extensions/`:
@@ -504,7 +553,7 @@ app.Run();
 
 ---
 
-## 12. How to add a use case (cheat sheet)
+## 13. How to add a use case (cheat sheet)
 
 **Write** — `Application/{Area}/{Feature}/Commands/{Action}/`:
 
@@ -529,7 +578,7 @@ generate a migration (§13).
 
 ---
 
-## 13. Common commands
+## 14. Common commands
 
 ```powershell
 # Build / test
@@ -553,7 +602,7 @@ dotnet run --project tools/Do -- rename Acme.Shop       # rename project/folders
 
 ---
 
-## 14. Project tooling — the `do` CLI
+## 15. Project tooling — the `do` CLI
 
 A small Laravel-`artisan`-style command runner lives in [`tools/Do/`](../tools/Do/Template-net10.Tools.csproj)
 and ships as a packable **.NET tool**. It is the supported way to rebrand the starter kit and to rotate
@@ -582,7 +631,7 @@ file-enumeration helpers live in [`Workspace.cs`](../tools/Do/Commands/Workspace
 
 ---
 
-## 15. Golden rules (do not break)
+## 16. Golden rules (do not break)
 
 1. **No Repository pattern** — handlers use `IApplicationDbContext` directly.
 2. **No business logic in handlers** — it lives in Domain entities.

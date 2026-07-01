@@ -1,3 +1,4 @@
+using Template_net10.Domain.Auth.Events;
 using Template_net10.Domain.Common;
 
 namespace Template_net10.Domain.Auth.Entities;
@@ -6,11 +7,10 @@ namespace Template_net10.Domain.Auth.Entities;
 /// Application user. Externally immutable: created through <see cref="Create"/> and mutated
 /// only through behaviour methods so all state transitions stay inside the domain.
 /// </summary>
-public class User : BaseEntity
+public class User : BaseEntity, IEmitsCreatedEvent, IEmitsDeletedEvent
 {
     private readonly List<UserRole> _userRoles = new();
 
-    // EF Core materialization ctor.
     private User()
     {
     }
@@ -25,11 +25,8 @@ public class User : BaseEntity
 
     public string PasswordHash { get; private set; } = string.Empty;
 
-    public bool IsActive { get; private set; }
-
     public IReadOnlyCollection<UserRole> UserRoles => _userRoles.AsReadOnly();
 
-    /// <summary>Factory: the only way to bring a <see cref="User"/> into existence.</summary>
     public static User Create(string nameEn, string nameAr, string email, string phone, string passwordHash)
         => new()
         {
@@ -41,7 +38,6 @@ public class User : BaseEntity
             IsActive = true,
         };
 
-    /// <summary>Applies a partial update; null arguments leave the existing value untouched.</summary>
     public User Update(string? nameEn, string? nameAr, string? email, string? phone)
     {
         NameEn = nameEn ?? NameEn;
@@ -52,25 +48,19 @@ public class User : BaseEntity
         return this;
     }
 
-    public void Activate()
-    {
-        IsActive = true;
-        UpdatedAt = DateTime.UtcNow;
-    }
-
-    public void Deactivate()
-    {
-        IsActive = false;
-        UpdatedAt = DateTime.UtcNow;
-    }
-
     public void SetPasswordHash(string passwordHash)
     {
         PasswordHash = passwordHash;
         UpdatedAt = DateTime.UtcNow;
     }
 
-    /// <summary>Grants a role if the user does not already have it.</summary>
+    /// <summary>Soft-deletes the user and deactivates the account.</summary>
+    public override void SoftDelete()
+    {
+        base.SoftDelete();
+        Deactivate();
+    }
+
     public void AssignRole(Role role)
     {
         var exists = _userRoles.Any(ur =>
@@ -83,12 +73,15 @@ public class User : BaseEntity
         }
     }
 
-    /// <summary>Removes all role assignments (used before reassigning a fresh set).</summary>
     public void ClearRoles()
     {
         _userRoles.Clear();
         UpdatedAt = DateTime.UtcNow;
     }
+
+    public void EmitCreatedEvent() => RaiseDomainEvent(new UserCreatedDomainEvent(Id, Email));
+
+    public void EmitDeletedEvent() => RaiseDomainEvent(new UserDeletedDomainEvent(Id, Email));
 
     private static string NormalizeEmail(string email) => email.Trim().ToLowerInvariant();
 }

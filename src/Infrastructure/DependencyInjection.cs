@@ -6,7 +6,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Template_net10.Application.Abstractions.Data;
 using Template_net10.Application.Abstractions.Jobs;
+using Template_net10.Application.Abstractions.Messaging;
+using Template_net10.Application.Auth.Users.Events;
 using Template_net10.Infrastructure.Authorization;
+using Template_net10.Infrastructure.Data;
 using Template_net10.Infrastructure.Jobs;
 using Template_net10.Infrastructure.Middleware;
 using Template_net10.Infrastructure.Options;
@@ -35,7 +38,7 @@ public static class DependencyInjection
             ? database.ConnectionString
             : configuration.GetConnectionString("DefaultConnection");
 
-        services.AddDbContext<ApplicationDbContext>(options =>
+        services.AddDbContext<ApplicationDbContext>((sp, options) =>
         {
             options.UseSqlServer(connectionString, sql =>
             {
@@ -45,7 +48,18 @@ public static class DependencyInjection
 
             options.EnableDetailedErrors(database.EnableDetailedErrors);
             options.EnableSensitiveDataLogging(database.EnableSensitiveDataLogging);
+            options.AddInterceptors(sp.GetRequiredService<DomainEventDispatchInterceptor>());
         });
+
+        services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>();
+        services.AddScoped<DomainEventDispatchInterceptor>();
+
+        services.Scan(scan => scan
+            .FromAssemblyOf<UserCreatedDomainEventHandler>()
+            .AddClasses(c => c.Where(t => t.GetInterfaces()
+                .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IDomainEventHandler<>))))
+            .AsImplementedInterfaces()
+            .WithScopedLifetime());
 
         services.AddScoped<IApplicationDbContext>(sp => sp.GetRequiredService<ApplicationDbContext>());
         services.AddScoped<ApplicationDbInitializer>();
