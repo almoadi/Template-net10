@@ -1,0 +1,164 @@
+export interface NavItem {
+  title: string;
+  slug: string;
+}
+
+export interface NavSection {
+  title: string;
+  items: NavItem[];
+}
+
+export const navigation: NavSection[] = [
+  {
+    title: 'Prologue',
+    items: [{ title: 'Introduction', slug: 'introduction' }],
+  },
+  {
+    title: 'Getting Started',
+    items: [
+      { title: 'Installation', slug: 'getting-started/installation' },
+      { title: 'Configuration', slug: 'getting-started/configuration' },
+      { title: 'Running the App', slug: 'getting-started/running-the-app' },
+      { title: 'Project Structure', slug: 'getting-started/project-structure' },
+    ],
+  },
+  {
+    title: 'Architecture',
+    items: [
+      { title: 'Overview', slug: 'architecture/overview' },
+      { title: 'Clean Architecture & CQRS', slug: 'architecture/clean-architecture' },
+      { title: 'MediatR Pipeline', slug: 'architecture/mediatr-pipeline' },
+      { title: 'Extending the Template', slug: 'architecture/extending-the-template' },
+    ],
+  },
+  {
+    title: 'Authentication',
+    items: [
+      { title: 'Overview', slug: 'authentication/overview' },
+      { title: 'Login', slug: 'authentication/login' },
+      { title: 'Refresh Tokens', slug: 'authentication/refresh-tokens' },
+      { title: 'Sessions', slug: 'authentication/sessions' },
+      { title: 'Logout', slug: 'authentication/logout' },
+    ],
+  },
+  {
+    title: 'Authorization',
+    items: [
+      { title: 'RBAC Overview', slug: 'authorization/overview' },
+      { title: 'Permissions', slug: 'authorization/permissions' },
+      { title: 'Roles', slug: 'authorization/roles' },
+      { title: 'HasPermission', slug: 'authorization/has-permission' },
+    ],
+  },
+  {
+    title: 'Users',
+    items: [
+      { title: 'Overview', slug: 'users/overview' },
+      { title: 'Create User', slug: 'users/create-user' },
+      { title: 'Search Users', slug: 'users/search-users' },
+      { title: 'Get User', slug: 'users/get-user' },
+      { title: 'Assign Roles', slug: 'users/assign-roles' },
+    ],
+  },
+  {
+    title: 'Roles API',
+    items: [
+      { title: 'Overview', slug: 'roles/overview' },
+      { title: 'Create Role', slug: 'roles/create-role' },
+      { title: 'Search Roles', slug: 'roles/search-roles' },
+    ],
+  },
+  {
+    title: 'API Conventions',
+    items: [
+      { title: 'Response Envelope', slug: 'api/response-envelope' },
+      { title: 'Pagination', slug: 'api/pagination' },
+      { title: 'Validation', slug: 'api/validation' },
+      { title: 'Exception Handling', slug: 'api/exception-handling' },
+      { title: 'Rate Limiting', slug: 'api/rate-limiting' },
+    ],
+  },
+  {
+    title: 'Configuration',
+    items: [
+      { title: 'Overview', slug: 'configuration/overview' },
+      { title: 'App', slug: 'configuration/app' },
+      { title: 'Database', slug: 'configuration/database' },
+      { title: 'Cache', slug: 'configuration/cache' },
+      { title: 'Mail', slug: 'configuration/mail' },
+      { title: 'JWT', slug: 'configuration/jwt' },
+      { title: 'Queue', slug: 'configuration/queue' },
+      { title: 'CORS', slug: 'configuration/cors' },
+    ],
+  },
+  {
+    title: 'Localization',
+    items: [
+      { title: 'Overview', slug: 'localization/overview' },
+      { title: 'Adding Translations', slug: 'localization/adding-translations' },
+    ],
+  },
+  {
+    title: 'Mail',
+    items: [
+      { title: 'Overview', slug: 'mail/overview' },
+      { title: 'Sending Email', slug: 'mail/sending-email' },
+    ],
+  },
+  {
+    title: 'Queue & Jobs',
+    items: [
+      { title: 'Overview', slug: 'queue/overview' },
+      { title: 'Creating Jobs', slug: 'queue/creating-jobs' },
+    ],
+  },
+  {
+    title: 'Caching',
+    items: [{ title: 'Overview', slug: 'caching/overview' }],
+  },
+  {
+    title: 'Database',
+    items: [
+      { title: 'Overview', slug: 'database/overview' },
+      { title: 'Migrations', slug: 'database/migrations' },
+      { title: 'Seeders', slug: 'database/seeders' },
+    ],
+  },
+  {
+    title: 'Tools',
+    items: [
+      { title: 'do CLI', slug: 'tools/do-cli' },
+      { title: 'dotnet new Template', slug: 'tools/dotnet-template' },
+    ],
+  },
+  {
+    title: 'Testing',
+    items: [{ title: 'Overview', slug: 'testing/overview' }],
+  },
+  {
+    title: 'Aspire',
+    items: [{ title: 'Overview', slug: 'aspire/overview' }],
+  },
+];
+
+export function getNavItemBySlug(slug: string): NavItem | undefined {
+  for (const section of navigation) {
+    const item = section.items.find((i) => i.slug === slug);
+    if (item) return item;
+  }
+  return undefined;
+}
+
+export function getAllNavItems(): NavItem[] {
+  return navigation.flatMap((section) => section.items);
+}
+
+export function getAdjacentSlugs(slug: string): { prev?: NavItem; next?: NavItem } {
+  const items = getAllNavItems();
+  const index = items.findIndex((i) => i.slug === slug);
+  if (index === -1) return {};
+  return {
+    prev: index > 0 ? items[index - 1] : undefined,
+    next: index < items.length - 1 ? items[index + 1] : undefined,
+  };
+}
