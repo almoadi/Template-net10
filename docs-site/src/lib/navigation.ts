@@ -158,6 +158,7 @@ export const navigation: NavSection[] = [
     items: [
       { title: 'Clock', slug: 'utilities/clock' },
       { title: 'Str Helpers', slug: 'utilities/str' },
+      { title: 'Helpers & Extensions', slug: 'utilities/helpers' },
     ],
   },
   {

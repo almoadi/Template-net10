@@ -6,6 +6,29 @@ Operating guide for AI coding agents working in this repository.
 
 ---
 
+## Documentation is the source of truth
+
+**Every AI agent must consult the documentation before writing code, and keep it up to date.** All
+agent config files in this repo (`CLAUDE.md`, `GEMINI.md`, `.cursor/rules/`, `.cursorrules`,
+`.windsurfrules`, `.github/copilot-instructions.md`) point here — `AGENTS.md` is the canonical rule set.
+
+**Documentation index:**
+
+| Source | What it covers |
+|--------|----------------|
+| [`AGENTS.md`](AGENTS.md) (this file) | Operating guide: architecture, conventions, golden rules, recipes |
+| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Long-form architecture reference |
+| [`docs/api-architecture.md`](docs/api-architecture.md), [`docs/cli-do.md`](docs/cli-do.md), [`docs/template-install.md`](docs/template-install.md) | API layout, `do` CLI, template install |
+| `docs-site/content/**` | Per-feature usage docs (auth, authorization, caching, storage, encryption, hashing, excel, pdf, realtime/websockets, idempotency, helpers, docker, …) rendered by the site in `docs-site/` |
+
+**Rules for agents:**
+
+1. **Read before you write** — search `docs-site/content/**` and `docs/` before inventing a pattern; follow the Golden rules below.
+2. **Update docs with every change** — new/changed features must update `docs-site/content/**` (and `docs-site/src/lib/navigation.ts`); convention changes must update this file and `docs/ARCHITECTURE.md`.
+3. **Green before done** — `dotnet build Template-net10.slnx` (0 errors) and `dotnet test` must pass.
+
+---
+
 ## What this is
 
 **Template-net10** is a production-ready **.NET 10** backend **starter kit** — the foundation copied into new projects. It is a monolith built on **Clean Architecture + CQRS + MediatR**, wired into **.NET Aspire**. Many conventions deliberately mirror **Laravel** (config folder, seeders, the `Auth` facade, YAML lang files, Eloquent-style scopes/events).

@@ -1,0 +1,21 @@
+# Template-net10 — Cursor rules (legacy .cursorrules)
+
+This repository is a fully documented .NET 10 starter kit. The documentation is the source of truth.
+Read it before writing code, and keep it up to date.
+
+Read first (required, in order):
+1. AGENTS.md — primary operating guide (architecture, conventions, golden rules, recipes). Authoritative.
+2. docs/ARCHITECTURE.md — long-form architecture reference.
+3. docs-site/content/** — per-feature usage docs (auth, caching, storage, encryption, excel, pdf,
+   realtime/websockets, idempotency, helpers, docker, …).
+
+Non-negotiable rules:
+- Follow every convention and Golden rule in AGENTS.md. Search the docs before inventing a pattern.
+- Match existing code: Clean Architecture + CQRS + MediatR; feature-organized folders; namespace == folder path.
+- When you add or change a feature, update the docs: docs-site/content/** (+ docs-site/src/lib/navigation.ts),
+  and AGENTS.md / docs/ARCHITECTURE.md if conventions change.
+- A task is done only when `dotnet build Template-net10.slnx` is green and `dotnet test` passes.
+- Do not introduce forbidden patterns: Repository pattern, business logic in handlers/controllers,
+  hardcoded user-facing strings, multi-tenancy, or hand-authored EF migrations.
+
+Treat AGENTS.md as the canonical rule set; this file only points you to it.
