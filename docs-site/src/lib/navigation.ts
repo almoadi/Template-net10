@@ -121,6 +121,10 @@ export const navigation: NavSection[] = [
     ],
   },
   {
+    title: 'Real-time',
+    items: [{ title: 'WebSockets', slug: 'realtime/overview' }],
+  },
+  {
     title: 'Caching',
     items: [
       { title: 'Overview', slug: 'caching/overview' },

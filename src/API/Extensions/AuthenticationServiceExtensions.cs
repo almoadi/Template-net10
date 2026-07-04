@@ -27,6 +27,23 @@ public static class AuthenticationServiceExtensions
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.SecretKey)),
                     ClockSkew = TimeSpan.Zero,
                 };
+
+                // Browsers can't set Authorization headers on WebSocket connections, so the SignalR
+                // client sends the JWT via the access_token query string on the hub handshake.
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+                        if (!string.IsNullOrEmpty(accessToken)
+                            && context.HttpContext.Request.Path.StartsWithSegments(RealtimeServiceExtensions.HubPath))
+                        {
+                            context.Token = accessToken;
+                        }
+
+                        return Task.CompletedTask;
+                    },
+                };
             });
 
         return services;

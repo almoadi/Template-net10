@@ -32,6 +32,7 @@ public static class MiddlewarePipelineExtensions
         app.UseAppHangfire();
 
         app.MapControllers();
+        app.MapRealtime();
         app.MapDefaultEndpoints();
 
         return app;

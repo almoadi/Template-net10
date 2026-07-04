@@ -11,6 +11,7 @@ using Template_net10.Application.Abstractions.Localization;
 using Template_net10.Application.Abstractions.Messaging;
 using Template_net10.Application.Abstractions.Notifications;
 using Template_net10.Application.Abstractions.Pdf;
+using Template_net10.Application.Abstractions.Realtime;
 using Template_net10.Application.Abstractions.Security;
 using Template_net10.Application.Abstractions.Storage;
 using Template_net10.Application.Abstractions.Time;
@@ -60,6 +61,7 @@ public sealed class InfrastructureRegistrationTests
     [TestCase(typeof(IExcelReader))]
     [TestCase(typeof(IPdfGenerator))]
     [TestCase(typeof(IPdfRenderer))]
+    [TestCase(typeof(IRealtimeNotifier))]
     public void Registers_service_from_every_feature_subfolder(Type serviceType)
     {
         var services = BuildInfrastructure();
