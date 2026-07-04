@@ -2,7 +2,7 @@ using Microsoft.Extensions.Options;
 using Template_net10.Application.Abstractions.Features;
 using Template_net10.Infrastructure.Options;
 
-namespace Template_net10.Infrastructure.Services;
+namespace Template_net10.Infrastructure.Services.Features;
 
 /// <summary>
 /// Configuration-driven <see cref="IFeatureFlags"/>. Reads flags from the <c>Features</c> section

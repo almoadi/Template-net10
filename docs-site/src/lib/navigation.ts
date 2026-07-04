@@ -48,6 +48,7 @@ export const navigation: NavSection[] = [
       { title: 'Permissions', slug: 'authorization/permissions' },
       { title: 'Roles', slug: 'authorization/roles' },
       { title: 'HasPermission', slug: 'authorization/has-permission' },
+      { title: 'HasRole', slug: 'authorization/has-role' },
     ],
   },
   {
@@ -78,6 +79,7 @@ export const navigation: NavSection[] = [
       { title: 'Rate Limiting', slug: 'api/rate-limiting' },
       { title: 'Correlation ID', slug: 'api/correlation-id' },
       { title: 'Security Headers', slug: 'api/security-headers' },
+      { title: 'Idempotency', slug: 'api/idempotency' },
     ],
   },
   {
@@ -93,6 +95,8 @@ export const navigation: NavSection[] = [
       { title: 'CORS', slug: 'configuration/cors' },
       { title: 'Storage', slug: 'configuration/storage' },
       { title: 'Feature Flags', slug: 'configuration/features' },
+      { title: 'Encryption', slug: 'configuration/encryption' },
+      { title: 'Idempotency', slug: 'configuration/idempotency' },
     ],
   },
   {
@@ -132,8 +136,18 @@ export const navigation: NavSection[] = [
     items: [{ title: 'Overview', slug: 'features/overview' }],
   },
   {
+    title: 'Security',
+    items: [
+      { title: 'Encryption', slug: 'security/encryption' },
+      { title: 'Hashing', slug: 'security/hashing' },
+    ],
+  },
+  {
     title: 'Utilities',
-    items: [{ title: 'Clock', slug: 'utilities/clock' }],
+    items: [
+      { title: 'Clock', slug: 'utilities/clock' },
+      { title: 'Str Helpers', slug: 'utilities/str' },
+    ],
   },
   {
     title: 'Database',

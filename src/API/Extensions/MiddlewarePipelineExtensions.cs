@@ -27,6 +27,8 @@ public static class MiddlewarePipelineExtensions
         app.UseAuthentication();
         app.UseAuthorization();
 
+        app.UseMiddleware<IdempotencyMiddleware>();
+
         app.UseAppHangfire();
 
         app.MapControllers();

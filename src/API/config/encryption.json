@@ -1,0 +1,8 @@
+{
+  // Application encryption settings (the .NET analog of Laravel's APP_KEY / config/app.php 'key').
+  "Encryption": {
+    // Base64-encoded 32-byte key. Generate with: openssl rand -base64 32
+    // Keep secrets OUT of source control — supply via user-secrets or environment variables.
+    "Key": ""
+  }
+}

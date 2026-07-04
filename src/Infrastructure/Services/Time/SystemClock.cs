@@ -1,6 +1,6 @@
 using Template_net10.Application.Abstractions.Time;
 
-namespace Template_net10.Infrastructure.Services;
+namespace Template_net10.Infrastructure.Services.Time;
 
 /// <summary>
 /// Default <see cref="IClock"/> backed by the machine clock, always in UTC. Registered by the

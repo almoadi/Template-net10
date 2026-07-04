@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 using Template_net10.Application.Abstractions.Storage;
 using Template_net10.Infrastructure.Options;
 
-namespace Template_net10.Infrastructure.Services;
+namespace Template_net10.Infrastructure.Services.Storage;
 
 /// <summary>
 /// Local file-system <see cref="IStorage"/> driver. Files live under <see cref="StorageOptions.Root"/>

@@ -33,6 +33,8 @@ public static class DependencyInjection
         services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SectionName));
         services.Configure<StorageOptions>(configuration.GetSection(StorageOptions.SectionName));
         services.Configure<FeatureFlagsOptions>(configuration.GetSection(FeatureFlagsOptions.SectionName));
+        services.Configure<EncryptionOptions>(configuration.GetSection(EncryptionOptions.SectionName));
+        services.Configure<IdempotencyOptions>(configuration.GetSection(IdempotencyOptions.SectionName));
         var database = configuration.GetSection(DatabaseOptions.SectionName).Get<DatabaseOptions>() ?? new DatabaseOptions();
         var cache = configuration.GetSection(CacheOptions.SectionName).Get<CacheOptions>() ?? new CacheOptions();
 
@@ -99,6 +101,7 @@ public static class DependencyInjection
         services.AddScoped<ExceptionHandlingMiddleware>();
         services.AddScoped<CorrelationIdMiddleware>();
         services.AddScoped<SecurityHeadersMiddleware>();
+        services.AddScoped<IdempotencyMiddleware>();
 
         // Background jobs / queue: Hangfire backed by SQL Server (config/queue.json).
         services.Configure<QueueOptions>(configuration.GetSection(QueueOptions.SectionName));

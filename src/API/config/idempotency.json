@@ -1,0 +1,9 @@
+{
+  // Idempotency for mutating requests. Clients send an "Idempotency-Key" header; the first
+  // successful response is cached and replayed for repeats with the same key, so retries are safe.
+  "Idempotency": {
+    "Enabled": true,
+    "HeaderName": "Idempotency-Key",
+    "ExpirationMinutes": 60
+  }
+}

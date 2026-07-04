@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using Template_net10.Application.Abstractions.Caching;
 using Template_net10.Infrastructure.Options;
 
-namespace Template_net10.Infrastructure.Services;
+namespace Template_net10.Infrastructure.Services.Caching;
 
 /// <summary>
 /// <see cref="ICacheService"/> backed by <see cref="IDistributedCache"/> (Memory or Redis, per
