@@ -8,6 +8,7 @@ builder.AddServiceDefaults();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddApiVersioningSupport();
 builder.Services.AddAppLocalization(builder.Configuration);
 builder.Services.AddClientCors(builder.Configuration, builder.Environment);
 builder.Services.AddApiSwagger();

@@ -6,7 +6,7 @@ Create a new user account with optional role assignments.
 
 | Method | Path | Permission |
 |--------|------|------------|
-| POST | `/api/auth/users` | `users.write` |
+| POST | `/api/v1/auth/users` | `users.write` |
 
 ## Request Body
 
@@ -41,7 +41,7 @@ Returns the new user's ID:
 ## Example
 
 ```http
-POST /api/auth/users
+POST /api/v1/auth/users
 Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
 Content-Type: application/json
 

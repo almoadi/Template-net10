@@ -6,7 +6,7 @@ List roles with pagination.
 
 | Method | Path | Permission |
 |--------|------|------------|
-| GET | `/api/auth/roles` | `roles.read` |
+| GET | `/api/v1/auth/roles` | `roles.read` |
 
 ## Query Parameters
 
@@ -38,7 +38,7 @@ List roles with pagination.
 ## Example
 
 ```http
-GET /api/auth/roles?offset=0&limit=20
+GET /api/v1/auth/roles?offset=0&limit=20
 Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
 ```
 

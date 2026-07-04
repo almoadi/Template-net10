@@ -1,3 +1,4 @@
+using Asp.Versioning.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
 using Template_net10.Infrastructure;
 using Template_net10.Infrastructure.Middleware;
@@ -17,7 +18,19 @@ public static class MiddlewarePipelineExtensions
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
-            app.UseSwaggerUI(o => o.EnablePersistAuthorization());
+            app.UseSwaggerUI(options =>
+            {
+                // One Swagger UI dropdown entry per discovered API version (newest first).
+                var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+                foreach (var description in provider.ApiVersionDescriptions.Reverse())
+                {
+                    options.SwaggerEndpoint(
+                        $"/swagger/{description.GroupName}/swagger.json",
+                        description.GroupName.ToUpperInvariant());
+                }
+
+                options.EnablePersistAuthorization();
+            });
         }
 
         app.UseRequestLocalization();

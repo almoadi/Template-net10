@@ -6,7 +6,7 @@ Revoke the current session or all sessions for the authenticated user.
 
 | Method | Path | Permission |
 |--------|------|------------|
-| POST | `/api/auth/logout` | Authenticated |
+| POST | `/api/v1/auth/logout` | Authenticated |
 
 ### Request Body
 
@@ -33,7 +33,7 @@ The session behind the provided refresh token is revoked. The access token may r
 
 | Method | Path | Permission |
 |--------|------|------------|
-| POST | `/api/auth/logout-all` | Authenticated |
+| POST | `/api/v1/auth/logout-all` | Authenticated |
 
 No request body. Revokes **every** active session for the current user.
 

@@ -6,7 +6,7 @@ The permission catalog defines every capability the application knows about. Per
 
 | Method | Path | Permission |
 |--------|------|------------|
-| GET | `/api/auth/permissions` | `permissions.read` |
+| GET | `/api/v1/auth/permissions` | `permissions.read` |
 
 ### Response (200)
 

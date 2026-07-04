@@ -34,7 +34,7 @@ driver exists.
 
 ## Usage
 
-Post a provider access token to `POST /api/auth/social/{provider}`. See
+Post a provider access token to `POST /api/v1/auth/social/{provider}`. See
 [Social Login](/docs/authentication/social-login).
 
 ## Related

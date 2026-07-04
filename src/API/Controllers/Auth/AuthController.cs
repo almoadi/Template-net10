@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +15,8 @@ using Template_net10.Application.Common.Models;
 
 namespace Template_net10.API.Controllers.Auth;
 
-[Route("api/auth")]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/auth")]
 public sealed class AuthController : ApiControllerBase
 {
     [AllowAnonymous]

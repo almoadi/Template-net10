@@ -19,7 +19,7 @@ A role has:
 
 ## Assigning Permissions to Roles
 
-When creating a role via `POST /api/auth/roles`, pass permission IDs. The `CreateRoleCommand` links permissions through the domain entity.
+When creating a role via `POST /api/v1/auth/roles`, pass permission IDs. The `CreateRoleCommand` links permissions through the domain entity.
 
 Users inherit permissions from all their roles. The JWT contains the union of permissions.
 

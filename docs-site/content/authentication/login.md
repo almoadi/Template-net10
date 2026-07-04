@@ -6,7 +6,7 @@ Authenticate with email and password to receive JWT access and refresh tokens.
 
 | Method | Path | Permission | Rate limited |
 |--------|------|------------|--------------|
-| POST | `/api/auth/login` | — (anonymous) | Yes |
+| POST | `/api/v1/auth/login` | — (anonymous) | Yes |
 
 ## Request Body
 
@@ -45,7 +45,7 @@ Invalid credentials return a failed envelope (not 401) to avoid leaking account 
 ## Example
 
 ```http
-POST /api/auth/login
+POST /api/v1/auth/login
 Content-Type: application/json
 
 {
@@ -57,7 +57,7 @@ Content-Type: application/json
 Use the `accessToken` in subsequent requests:
 
 ```http
-GET /api/auth/sessions
+GET /api/v1/auth/sessions
 Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
 ```
 

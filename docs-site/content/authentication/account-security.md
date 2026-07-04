@@ -22,28 +22,28 @@ Two-factor can also be enabled per user via `User.EnableTwoFactor()` even when t
 
 ## Endpoints
 
-All live on `AccountController` (`/api/auth`), are `[AllowAnonymous]`, and rate-limited like login.
+All live on `AccountController` (`/api/v1/auth`), are `[AllowAnonymous]`, and rate-limited like login.
 
 | Method | Route | Purpose |
 |--------|-------|---------|
-| POST | `/api/auth/email/verify/request` | Send an email-verification token |
-| POST | `/api/auth/email/verify` | Verify with `{ email, token }` |
-| POST | `/api/auth/password/forgot` | Send a password-reset token |
-| POST | `/api/auth/password/reset` | Reset with `{ email, token, newPassword }` |
-| POST | `/api/auth/2fa/verify` | Complete 2FA login with `{ email, code }` |
+| POST | `/api/v1/auth/email/verify/request` | Send an email-verification token |
+| POST | `/api/v1/auth/email/verify` | Verify with `{ email, token }` |
+| POST | `/api/v1/auth/password/forgot` | Send a password-reset token |
+| POST | `/api/v1/auth/password/reset` | Reset with `{ email, token, newPassword }` |
+| POST | `/api/v1/auth/2fa/verify` | Complete 2FA login with `{ email, code }` |
 
 `request`/`forgot` always return success so callers cannot enumerate which emails exist.
 
 ## Login flow with two-factor
 
-When 2FA applies to a user, `POST /api/auth/login` validates the password, emails an OTP, and returns
+When 2FA applies to a user, `POST /api/v1/auth/login` validates the password, emails an OTP, and returns
 **400** with `TwoFactorRequired`. The client then completes sign-in:
 
 ```http
-POST /api/auth/login           { "email": "...", "password": "..." }
+POST /api/v1/auth/login           { "email": "...", "password": "..." }
 → 400 "A verification code has been sent to your email."
 
-POST /api/auth/2fa/verify      { "email": "...", "code": "123456" }
+POST /api/v1/auth/2fa/verify      { "email": "...", "code": "123456" }
 → 200 { accessToken, refreshToken, ... }
 ```
 

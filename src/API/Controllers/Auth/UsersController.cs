@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Template_net10.API.Controllers;
@@ -12,7 +13,8 @@ using Template_net10.Infrastructure.Authorization.Permissions;
 
 namespace Template_net10.API.Controllers.Auth;
 
-[Route("api/auth/users")]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/auth/users")]
 public sealed class UsersController : ApiControllerBase
 {
     [HasPermission(AuthPermissionCodes.UsersWrite)]

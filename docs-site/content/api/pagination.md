@@ -12,7 +12,7 @@ Paged list endpoints accept query parameters via `PagedRequest` and return `Page
 Example:
 
 ```http
-GET /api/auth/users?offset=0&limit=20&search=admin
+GET /api/v1/auth/users?offset=0&limit=20&search=admin
 ```
 
 ## Handler Pattern
@@ -54,8 +54,8 @@ All counting and page-bound clamping live in `PaginationExtensions` and `PagedAp
 
 | Endpoint | Query class |
 |----------|-------------|
-| `GET /api/auth/users` | `SearchUsersQuery` |
-| `GET /api/auth/roles` | `SearchRolesQuery` |
+| `GET /api/v1/auth/users` | `SearchUsersQuery` |
+| `GET /api/v1/auth/roles` | `SearchRolesQuery` |
 
 ## Related
 

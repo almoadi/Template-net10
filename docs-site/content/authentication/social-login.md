@@ -13,7 +13,7 @@ client secret to store):
 ```
 1. The front end runs the provider's OAuth/OIDC flow (Google Identity Services,
    MSAL for Entra, …) and receives a provider access token.
-2. The front end POSTs that token to POST /api/auth/social/{provider}.
+2. The front end POSTs that token to POST /api/v1/auth/social/{provider}.
 3. The backend validates the token by calling the provider's userinfo endpoint:
      - Google → https://www.googleapis.com/oauth2/v3/userinfo
      - Azure  → https://graph.microsoft.com/v1.0/me
@@ -28,7 +28,7 @@ the app treats a socially-authenticated user like any other.
 
 | Method | Path | Permission | Rate limited |
 |--------|------|------------|--------------|
-| POST | `/api/auth/social/{provider}` | — (anonymous) | Yes |
+| POST | `/api/v1/auth/social/{provider}` | — (anonymous) | Yes |
 
 `{provider}` is `google` or `azure` (case-insensitive).
 
@@ -57,7 +57,7 @@ the app treats a socially-authenticated user like any other.
 ## Example
 
 ```http
-POST /api/auth/social/google
+POST /api/v1/auth/social/google
 Content-Type: application/json
 
 {

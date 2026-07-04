@@ -224,9 +224,9 @@ paging behaviour in one place. Defaults: page size 20, max 100.
   `AuthTokenDto` with a short-lived **access token** (JWT carrying the user's `role` and `permission`
   claims) plus a long-lived **refresh token**.
 - **Sessions & refresh tokens.** Each login creates a [`UserSession`](../src/Domain/Auth/Entities/UserSession.cs)
-  row storing a **hashed** refresh token, expiry, and device/IP/user-agent. `POST /api/auth/refresh`
-  rotates the refresh token and issues a new access token; `POST /api/auth/logout` revokes the current
-  session; `POST /api/auth/logout-all` revokes every session of the user; `GET /api/auth/sessions`
+  row storing a **hashed** refresh token, expiry, and device/IP/user-agent. `POST /api/v1/auth/refresh`
+  rotates the refresh token and issues a new access token; `POST /api/v1/auth/logout` revokes the current
+  session; `POST /api/v1/auth/logout-all` revokes every session of the user; `GET /api/v1/auth/sessions`
   lists the caller's active sessions. Refresh-token lifetime is `Jwt:RefreshTokenExpiryDays`.
 - **Authorize** endpoints with `[HasPermission(AuthPermissionCodes.UsersWrite)]` (fine-grained) or
   `[HasRole(AuthRoles.Admin)]` (coarse, any-of). Each attribute encodes its requirement into a policy

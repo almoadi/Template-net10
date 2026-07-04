@@ -58,7 +58,7 @@ dotnet build src/Application/Template-net10.Application.csproj
 | `/swagger` | OpenAPI / Swagger UI (Development) |
 | `/hangfire` | Hangfire job dashboard |
 | `/health` | Health check endpoint |
-| `/api/auth/login` | Authentication |
+| `/api/v1/auth/login` | Authentication |
 
 ## Related
 

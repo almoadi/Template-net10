@@ -6,7 +6,7 @@ Create a new role with optional permission assignments.
 
 | Method | Path | Permission |
 |--------|------|------------|
-| POST | `/api/auth/roles` | `roles.write` |
+| POST | `/api/v1/auth/roles` | `roles.write` |
 
 ## Request Body
 
@@ -32,7 +32,7 @@ Returns the new role's ID.
 ## Example
 
 ```http
-POST /api/auth/roles
+POST /api/v1/auth/roles
 Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
 Content-Type: application/json
 

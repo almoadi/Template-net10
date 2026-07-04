@@ -178,7 +178,8 @@ Controllers inherit `ApiControllerBase`, declare permissions + response types, a
 `Sender.Send(...)`. No business services, no DbContext, no SQL.
 
 ```csharp
-[Route("api/auth/users")]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/auth/users")]
 public sealed class UsersController : ApiControllerBase
 {
     [HasPermission(AuthPermissionCodes.UsersWrite)]

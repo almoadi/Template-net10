@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +16,8 @@ namespace Template_net10.API.Controllers.Auth;
 /// Social login (Laravel Socialite style). Token-based flow: the client obtains a provider access
 /// token on the front end, then posts it here to receive this application's own JWT.
 /// </summary>
-[Route("api/auth/social")]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/auth/social")]
 public sealed class SocialAuthController : ApiControllerBase
 {
     /// <summary>Exchanges a provider access token for the application's access/refresh token pair.</summary>

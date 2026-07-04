@@ -6,7 +6,7 @@ Search and list users with pagination.
 
 | Method | Path | Permission |
 |--------|------|------------|
-| GET | `/api/auth/users` | `users.read` |
+| GET | `/api/v1/auth/users` | `users.read` |
 
 ## Query Parameters
 
@@ -41,7 +41,7 @@ Search and list users with pagination.
 ## Example
 
 ```http
-GET /api/auth/users?offset=0&limit=20&search=admin
+GET /api/v1/auth/users?offset=0&limit=20&search=admin
 Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
 ```
 

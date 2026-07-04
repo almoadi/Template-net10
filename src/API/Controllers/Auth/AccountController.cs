@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,8 @@ namespace Template_net10.API.Controllers.Auth;
 /// Optional account-security endpoints: email verification, password reset, and two-factor login.
 /// These behave as no-ops in effect until the matching flags are enabled in <c>config/auth.json</c>.
 /// </summary>
-[Route("api/auth")]
+[Route("api/v{version:apiVersion}/auth")]
+[ApiVersion("1.0")]
 public sealed class AccountController : ApiControllerBase
 {
     [AllowAnonymous]

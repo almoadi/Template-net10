@@ -1,6 +1,12 @@
 @Template_net10_HostAddress = http://localhost:5035
 
-GET {{Template_net10_HostAddress}}/weatherforecast/
-Accept: application/json
+### Log in (returns access + refresh tokens)
+POST {{Template_net10_HostAddress}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@template-net10.local",
+  "password": "ChangeMe!123"
+}
 
 ###

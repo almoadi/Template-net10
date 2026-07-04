@@ -6,7 +6,7 @@ When the access token expires, exchange a valid refresh token for a new access t
 
 | Method | Path | Permission | Rate limited |
 |--------|------|------------|--------------|
-| POST | `/api/auth/refresh` | — (anonymous) | Yes |
+| POST | `/api/v1/auth/refresh` | — (anonymous) | Yes |
 
 ## Request Body
 

@@ -145,6 +145,7 @@ Pure C#. No EF, MediatR, or ASP.NET references.
 ### API (`src/API`)
 
 - **Controllers** inherit `ApiControllerBase`, declare `[HasPermission]` + `[ProducesResponseType]`, call **only** `Sender.Send(...)`.
+- **API versioning** — controllers declare `[ApiVersion("1.0")]` and route `api/v{version:apiVersion}/...` (URL-segment versioning); wired in `Extensions/ApiVersioningServiceExtensions.cs`, Swagger is version-aware via `Extensions/ConfigureSwaggerOptions.cs`.
 - **Config** in `config/*.json` (+ per-environment overrides).
 - **Localization** in `resources/lang/{en,ar}.yml`.
 - **Program.cs** is a thin composition root; behaviour lives in `Extensions/`.
@@ -339,7 +340,7 @@ Secrets (`jwt.json` SecretKey, mail credentials, real DB strings) come from user
 |---------|-------|
 | **RBAC** | `Domain/Auth/Entities`; permission codes in `Domain/Auth/Constants` |
 | **Auth facade** | `IAuth` + static `Auth` (Application); `AuthService` (Infrastructure) |
-| **Social login** | `ISocialite` + static `Socialite` (Application); `SocialiteService` + `ISocialProviderDriver` (Google/Azure) in `Infrastructure/Services/Auth/Social`; token-based, `POST /api/auth/social/{provider}`; config `config/socialite.json` |
+| **Social login** | `ISocialite` + static `Socialite` (Application); `SocialiteService` + `ISocialProviderDriver` (Google/Azure) in `Infrastructure/Services/Auth/Social`; token-based, `POST /api/v1/auth/social/{provider}`; config `config/socialite.json` |
 | **Authorization** | `[HasPermission]` / `[HasRole]` → `AuthorizationPolicyProvider` + `PermissionAuthorizationHandler` / `RoleAuthorizationHandler` |
 | **Localization** | `resources/lang/{en,ar}.yml`; `LocalizationService`; `Resource` enum |
 | **Mail** | `IEmailSender` → `SmtpEmailSender`; no HTTP endpoint — call from your use cases |

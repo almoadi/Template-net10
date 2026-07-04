@@ -6,7 +6,7 @@ List active login sessions for the currently authenticated user.
 
 | Method | Path | Permission |
 |--------|------|------------|
-| GET | `/api/auth/sessions` | Authenticated (any user) |
+| GET | `/api/v1/auth/sessions` | Authenticated (any user) |
 
 ## Response (200)
 
@@ -41,7 +41,7 @@ Sessions are created by `Auth.Attempt()` during login and revoked by logout endp
 ## Example
 
 ```http
-GET /api/auth/sessions
+GET /api/v1/auth/sessions
 Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
 ```
 

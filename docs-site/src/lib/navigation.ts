@@ -75,6 +75,7 @@ export const navigation: NavSection[] = [
     title: 'API Conventions',
     items: [
       { title: 'Response Envelope', slug: 'api/response-envelope' },
+      { title: 'API Versioning', slug: 'api/versioning' },
       { title: 'Pagination', slug: 'api/pagination' },
       { title: 'Validation', slug: 'api/validation' },
       { title: 'Exception Handling', slug: 'api/exception-handling' },

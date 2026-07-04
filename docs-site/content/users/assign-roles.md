@@ -6,7 +6,7 @@ Replace the roles assigned to a user.
 
 | Method | Path | Permission |
 |--------|------|------------|
-| PUT | `/api/auth/users/{id}/roles` | `users.write` |
+| PUT | `/api/v1/auth/users/{id}/roles` | `users.write` |
 
 ## Request Body
 
@@ -38,7 +38,7 @@ The route `{id}` is always applied to `UserId` — the body cannot override it.
 ## Example
 
 ```http
-PUT /api/auth/users/42/roles
+PUT /api/v1/auth/users/42/roles
 Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
 Content-Type: application/json
 

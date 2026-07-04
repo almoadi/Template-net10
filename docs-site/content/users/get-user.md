@@ -6,7 +6,7 @@ Retrieve a single user by ID.
 
 | Method | Path | Permission |
 |--------|------|------------|
-| GET | `/api/auth/users/{id}` | `users.read` |
+| GET | `/api/v1/auth/users/{id}` | `users.read` |
 
 ## Response (200)
 
@@ -32,7 +32,7 @@ Returns `isSuccess: false` with a localized message when the user does not exist
 ## Example
 
 ```http
-GET /api/auth/users/1
+GET /api/v1/auth/users/1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
 ```
 

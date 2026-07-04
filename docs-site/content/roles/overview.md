@@ -6,8 +6,8 @@ The Roles API manages role definitions and their permission assignments.
 
 | Method | Path | Permission |
 |--------|------|------------|
-| GET | `/api/auth/roles` | `roles.read` |
-| POST | `/api/auth/roles` | `roles.write` |
+| GET | `/api/v1/auth/roles` | `roles.read` |
+| POST | `/api/v1/auth/roles` | `roles.write` |
 
 ## RoleDto Shape
 
@@ -20,16 +20,16 @@ The Roles API manages role definitions and their permission assignments.
 
 ## Controller
 
-`RolesController` at route `api/auth/roles`.
+`RolesController` at route `api/v1/auth/roles`.
 
 ## When & How to Use It
 
 Roles are reusable bundles of permissions you hand out to users. Use the Roles API when you're
 building the admin side of access control:
 
-- **Create a new role** — `POST /api/auth/roles` when your app needs a new tier of access, such
+- **Create a new role** — `POST /api/v1/auth/roles` when your app needs a new tier of access, such
   as `Editor` or `Support`, with a specific set of permissions.
-- **Populate an "assign role" dropdown** — call `GET /api/auth/roles` to list roles when an admin
+- **Populate an "assign role" dropdown** — call `GET /api/v1/auth/roles` to list roles when an admin
   is choosing what to grant a user (see [Assign Roles](/docs/users/assign-roles)).
 - **Review who can do what** — each role returns its `permissions[]`, so you can show exactly
   which capabilities a role unlocks.
