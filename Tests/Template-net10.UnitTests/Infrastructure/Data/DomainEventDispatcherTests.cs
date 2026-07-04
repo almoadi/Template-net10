@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using Template_net10.Application.Abstractions.Messaging;
 using Template_net10.Domain.Auth.Events;
-using Template_net10.Infrastructure.Services;
+using Template_net10.Infrastructure.Services.Messaging;
 
 namespace Template_net10.UnitTests.Infrastructure.Data;
 

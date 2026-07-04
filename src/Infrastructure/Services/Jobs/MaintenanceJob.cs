@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Template_net10.Application.Abstractions.Jobs;
 
-namespace Template_net10.Infrastructure.Services;
+namespace Template_net10.Infrastructure.Services.Jobs;
 
 /// <summary>Sample recurring job — logs a heartbeat. Replace with real periodic maintenance work.</summary>
 public sealed class MaintenanceJob : IMaintenanceJob

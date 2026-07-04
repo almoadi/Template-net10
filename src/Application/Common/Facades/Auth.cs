@@ -19,7 +19,7 @@ public static class Auth
     public static void SetResolver(Func<IAuth> resolver) => _resolver = resolver;
 
     private static IAuth Instance => (_resolver ?? throw new InvalidOperationException(
-        "Auth facade is not initialized. Call app.UseFacades() during startup."))();
+        "Auth facade is not initialized. Call app.UseAuthFacade() during startup."))();
 
     public static int? Id => Instance.Id;
 

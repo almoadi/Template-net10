@@ -53,6 +53,22 @@ only valid inside an HTTP request.
 
 Swap the Infrastructure `LocalStorage` implementation for blob/object storage without changing any handler.
 
+## When & How to Use It
+
+Use `IStorage` any time you're dealing with files instead of database rows:
+
+- **Accept uploads** — profile avatars, attachments, imported spreadsheets. Save the stream with
+  `PutAsync` and store the returned path on your entity.
+- **Generate files** — invoices, PDF reports, CSV exports. Write the bytes, then hand the user a
+  link with `Url(path)`.
+- **Serve a file back** — `GetAsync` to stream a stored file, `ExistsAsync` to check first.
+- **Clean up** — `DeleteAsync` when the owning record is removed.
+- **Move to the cloud later** — develop against the `Local` disk driver, then swap in blob/object
+  storage in Infrastructure without touching a single handler.
+
+**Why go through the abstraction?** Handlers never touch the file system directly, paths are
+validated against traversal (`..`), and the storage backend stays swappable.
+
 ## Related
 
 - [Storage Configuration](/docs/configuration/storage)

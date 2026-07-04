@@ -29,6 +29,23 @@ Registered at startup in `HangfireServiceExtensions.cs`. Maintenance jobs run on
 
 See [Queue Configuration](/docs/configuration/queue). Hangfire shares the EF Core SQL Server connection.
 
+## When & How to Use It
+
+Background jobs let you move slow or scheduled work off the request thread so users never wait.
+Reach for the queue when:
+
+- **A task is slow** — sending email, generating a PDF/report, resizing images, or calling a
+  third-party API. Enqueue it and return the response immediately.
+- **Work should happen later** — a delayed reminder "in 24 hours" or a follow-up message.
+- **Something runs on a schedule** — nightly cleanup, expiring old sessions, daily digests. These
+  are recurring jobs registered at startup.
+- **You need automatic retries** — Hangfire re-runs failed jobs, which is safer than doing fragile
+  work inline during a request.
+
+**Typical flow:** define a job interface, implement it in Infrastructure, then call
+`_jobScheduler.Enqueue<IEmailJob>(j => j.SendAsync(...))`. Watch and manage runs on the
+`/hangfire` dashboard.
+
 ## Related
 
 - [Creating Jobs](/docs/queue/creating-jobs)

@@ -31,6 +31,22 @@ Cache keys are explicit strings on each query. When mutating data that affects a
 - Use a short TTL, or
 - Implement cache invalidation in the command handler (future enhancement)
 
+## When & How to Use It
+
+Caching trades a little freshness for a lot of speed. Add `ICacheableQuery` to a query when:
+
+- **The data rarely changes** — the permission catalog, lookup lists, settings, or reference data
+  that's read constantly but written rarely.
+- **The query is expensive** — heavy joins or aggregations you don't want to run on every request.
+- **The same result is requested often** — caching the first response serves everyone else instantly.
+
+When **not** to cache: data that must always be current (account balances, live inventory) or
+results that differ per user in ways that make the key hard to manage.
+
+**Scaling tip:** use the `Memory` driver on a single instance for local dev, and switch to
+`Redis` when you run multiple instances so they share one cache. Keep TTLs short for data that
+can change, and remember the cache key so you can invalidate it after a related write.
+
 ## Related
 
 - [MediatR Pipeline](/docs/architecture/mediatr-pipeline)

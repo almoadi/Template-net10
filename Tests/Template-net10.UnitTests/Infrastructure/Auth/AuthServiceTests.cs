@@ -6,7 +6,7 @@ using NUnit.Framework;
 using Template_net10.Application.Abstractions.Security;
 using Template_net10.Domain.Auth.Entities;
 using Template_net10.Infrastructure.Options;
-using Template_net10.Infrastructure.Services;
+using Template_net10.Infrastructure.Services.Auth;
 using Template_net10.UnitTests.Common;
 
 namespace Template_net10.UnitTests.Infrastructure.Auth;

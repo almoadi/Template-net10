@@ -4,7 +4,7 @@ using Microsoft.Extensions.Hosting;
 using Template_net10.Application.Abstractions.Localization;
 using YamlDotNet.Serialization;
 
-namespace Template_net10.Infrastructure.Services;
+namespace Template_net10.Infrastructure.Services.Localization;
 
 /// <summary>
 /// File-backed localization. Messages live in <c>resources/lang/{language}.yml</c> (e.g. <c>en.yml</c>,

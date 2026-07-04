@@ -52,6 +52,27 @@ The facade is wired at startup via `app.UseFacades()` and is valid only inside H
 | POST | `/api/auth/logout-all` | Yes |
 | GET | `/api/auth/sessions` | Yes |
 
+## When & How to Use It
+
+Authentication is the front door of your app — reach for it whenever you need to know *who* is
+making a request. In practice you'll use it to:
+
+- **Sign a user in** — a login screen collects email + password and calls `POST /api/auth/login`.
+  You store the returned `accessToken` and `refreshToken` on the client.
+- **Keep a user signed in** — when the short-lived access token expires, silently call
+  `POST /api/auth/refresh` with the refresh token instead of forcing them to log in again.
+- **Log out one device** — call `POST /api/auth/logout` to revoke just the current session
+  (for example, a "Sign out" button).
+- **Log out everywhere** — call `POST /api/auth/logout-all` after a password change or a
+  "suspicious activity" alert to kill every session for that user.
+- **Show active devices** — call `GET /api/auth/sessions` to power a "Where you're logged in"
+  screen so users can review and revoke sessions.
+- **Read the current user in code** — inject `IAuth` (or use the static `Auth` facade) inside a
+  handler to get the caller's id, roles, and permissions.
+
+**Typical flow:** log in once → send the access token on every request → refresh quietly in the
+background → log out when done.
+
 ## Related
 
 - [Login](/docs/authentication/login)

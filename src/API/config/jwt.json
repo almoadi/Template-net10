@@ -4,7 +4,7 @@
     "Audience": "Template-net10.Client",
     // SecretKey — HMAC-SHA256 signing key; MUST be >= 32 chars. Replace with a real secret
     // stored in user-secrets / environment variables / a vault. Never commit production secrets.
-    "SecretKey": "CZVGtGAGe5WcWJWZ26EYYovHSzXthCPXdl2f1oxq1fA2BDtg1FYe46acwwyzr2jr",
+    "SecretKey": "qN8tCxUKtYFvDEMir3F7EtYFvMexFWtRy6Zla14qrjXlmnf5hjsnS3Q0UQr0QmYq",
     "ExpiryMinutes": 60,
     // RefreshTokenExpiryDays — lifetime of a server-side session's refresh token.
     "RefreshTokenExpiryDays": 30

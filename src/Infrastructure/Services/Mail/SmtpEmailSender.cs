@@ -6,7 +6,7 @@ using MimeKit;
 using Template_net10.Application.Abstractions.Notifications;
 using Template_net10.Infrastructure.Options;
 
-namespace Template_net10.Infrastructure.Services;
+namespace Template_net10.Infrastructure.Services.Mail;
 
 /// <summary>
 /// Sends email over SMTP using MailKit. When <see cref="MailDriver.Log"/> is configured (or no host

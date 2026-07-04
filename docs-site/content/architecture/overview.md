@@ -55,6 +55,21 @@ Controllers never contain business logic — they only call `Sender.Send(...)`.
 5. No hardcoded user-facing text — use `ILocalizationService` + YAML files.
 6. Every runtime DB object ships in a CLI-generated EF migration.
 
+## When & How to Use It
+
+This page is your map when you're deciding *where new code belongs*. Lean on it when:
+
+- **You're adding a feature** — the request flow tells you to add a Command/Query in Application,
+  put business rules on a Domain entity, and implement any external service in Infrastructure.
+- **You're onboarding** — the dependency rule (`API → Application → Domain`, Infrastructure on the
+  side) explains why the projects reference each other the way they do.
+- **You're unsure which layer** — if it's a pure rule with no framework, it's Domain; if it
+  coordinates a use case, it's Application; if it talks to a database/SMTP/queue, it's Infrastructure.
+- **You're reviewing code** — the golden rules are the checklist: no repositories, no logic in
+  handlers or controllers, read-only queries, immutable entities.
+
+**Rule of thumb:** dependencies point inward, and the Domain never depends on a framework.
+
 ## Related
 
 - [Clean Architecture & CQRS](/docs/architecture/clean-architecture)

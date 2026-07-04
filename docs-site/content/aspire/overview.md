@@ -51,6 +51,21 @@ dotnet run --project src/API
 
 Aspire adds observability but is not required for the API to function.
 
+## When & How to Use It
+
+Aspire is a developer convenience for running and observing the app locally. Use it when:
+
+- **You want the dashboard** — run `dotnet run --project Template-net10.AppHost` to get one place
+  showing the API's endpoints, live logs, and traces.
+- **You're debugging a slow or failing request** — follow the OpenTelemetry traces to see where
+  time goes or where an error is thrown across the request.
+- **You want resilience by default** — outgoing HTTP calls get retries and a circuit breaker from
+  ServiceDefaults without extra wiring.
+
+When you **don't** need it: for a quick edit-and-run loop, start the API alone with
+`dotnet run --project src/API`. The API works fine without Aspire — you just lose the dashboard
+and built-in telemetry.
+
 ## Related
 
 - [Running the App](/docs/getting-started/running-the-app)

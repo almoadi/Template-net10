@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Template_net10.Domain.Auth.Entities;
 using Template_net10.Domain.Common;
-using Template_net10.Infrastructure.Configurations;
 
 namespace Template_net10.Infrastructure.Configurations.Auth;
 
@@ -13,7 +12,6 @@ public sealed class UserSessionConfiguration : IEntityTypeConfiguration<UserSess
         builder.ToTable("UserSessions");
 
         builder.HasKey(x => x.Id);
-        BaseEntityConfiguration.Configure(builder);
 
         builder.Property(x => x.UserId).IsRequired();
         builder.Property(x => x.RefreshTokenHash).IsRequired().HasMaxLength(LengthConstants.L255);

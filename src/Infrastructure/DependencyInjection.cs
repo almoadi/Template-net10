@@ -15,7 +15,7 @@ using Template_net10.Infrastructure.Data;
 using Template_net10.Infrastructure.Jobs;
 using Template_net10.Infrastructure.Middleware;
 using Template_net10.Infrastructure.Options;
-using Template_net10.Infrastructure.Services;
+using Template_net10.Infrastructure.Services.Messaging;
 
 namespace Template_net10.Infrastructure;
 
@@ -71,10 +71,14 @@ public static class DependencyInjection
 
         services.AddHttpContextAccessor();
 
-        // Scan Infrastructure.Services and bind each implementation to its interface(s).
+        // Scan Infrastructure.Services (and its feature sub-namespaces) and bind each implementation
+        // to its interface(s). The prefix filter keeps every service under Services/ registered no
+        // matter which feature subfolder it lives in.
         services.Scan(scan => scan
-            .FromAssemblyOf<LocalizationService>()
-            .AddClasses(c => c.InNamespaceOf<LocalizationService>())
+            .FromAssemblyOf<ApplicationDbContext>()
+            .AddClasses(c => c.Where(t =>
+                t.Namespace is not null &&
+                t.Namespace.StartsWith("Template_net10.Infrastructure.Services", StringComparison.Ordinal)))
             .AsImplementedInterfaces()
             .WithScopedLifetime());
 

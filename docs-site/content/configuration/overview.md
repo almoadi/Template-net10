@@ -61,6 +61,23 @@ Never commit production secrets. Override via:
 - Environment variables (`Jwt__SecretKey`)
 - Azure Key Vault / similar
 
+## When & How to Use It
+
+Configuration is how you change behavior without recompiling. Reach for it when:
+
+- **A value differs per environment** — database connection strings, the mail driver, or the cache
+  driver that should be `Log`/`Memory` locally but `Smtp`/`Redis` in production. Put the base value
+  in `config/{name}.json` and override just the changed keys in `config/{Environment}/{name}.json`.
+- **You're adding a new setting** — create the JSON file, add its name to the loader loop in
+  `Program.cs`, and bind it to a strongly-typed `{Name}Options` class so handlers read typed values,
+  not magic strings.
+- **A value is a secret** — keep API keys, the JWT secret, and real connection strings out of the
+  repo. Supply them through `dotnet user-secrets`, environment variables, or a vault instead.
+- **You want a live tweak** — files are loaded with `reloadOnChange`, so many settings take effect
+  without a restart.
+
+**Rule of thumb:** one file per concern, typed options over raw strings, and secrets never committed.
+
 ## Related
 
 - [Getting Started: Configuration](/docs/getting-started/configuration)

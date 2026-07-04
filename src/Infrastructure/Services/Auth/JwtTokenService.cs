@@ -7,7 +7,7 @@ using Template_net10.Application.Abstractions.Security;
 using Template_net10.Infrastructure.Authorization.Permissions;
 using Template_net10.Infrastructure.Options;
 
-namespace Template_net10.Infrastructure.Services;
+namespace Template_net10.Infrastructure.Services.Auth;
 
 /// <summary>Issues signed JWTs carrying the user id and their permission claims.</summary>
 public sealed class JwtTokenService : IJwtTokenService

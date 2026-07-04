@@ -2,7 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Template_net10.Application.Abstractions.Messaging;
 using Template_net10.Domain.Common;
 
-namespace Template_net10.Infrastructure.Services;
+namespace Template_net10.Infrastructure.Services.Messaging;
 
 /// <summary>Resolves and invokes all <see cref="IDomainEventHandler{TEvent}"/> for each event.</summary>
 public sealed class DomainEventDispatcher : IDomainEventDispatcher

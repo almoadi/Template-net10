@@ -1,7 +1,7 @@
 using Template_net10.Application.Abstractions.Jobs;
 using Template_net10.Application.Abstractions.Notifications;
 
-namespace Template_net10.Infrastructure.Services;
+namespace Template_net10.Infrastructure.Services.Mail;
 
 /// <summary>Hangfire job that delegates to <see cref="IEmailSender"/> off the request thread.</summary>
 public sealed class EmailJob : IEmailJob

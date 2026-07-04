@@ -12,7 +12,7 @@ using Template_net10.Domain.Auth.Entities;
 using Template_net10.Infrastructure.Authorization.Permissions;
 using Template_net10.Infrastructure.Options;
 
-namespace Template_net10.Infrastructure.Services;
+namespace Template_net10.Infrastructure.Services.Auth;
 
 /// <summary>
 /// Backing implementation of the Laravel-style <see cref="IAuth"/> facade. Reads identity and

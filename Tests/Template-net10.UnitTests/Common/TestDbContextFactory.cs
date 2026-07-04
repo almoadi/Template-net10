@@ -3,7 +3,6 @@ using Template_net10.Application.Abstractions.Messaging;
 using Template_net10.Domain.Common;
 using Template_net10.Infrastructure;
 using Template_net10.Infrastructure.Data;
-using Template_net10.Infrastructure.Services;
 
 namespace Template_net10.UnitTests.Common;
 

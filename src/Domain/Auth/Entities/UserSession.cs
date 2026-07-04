@@ -33,7 +33,7 @@ public class UserSession : BaseEntity
     public string? UserAgent { get; private set; }
 
     /// <summary>True while the session is neither revoked nor expired.</summary>
-    public new bool IsActive => RevokedAt is null && ExpiresAt > DateTime.UtcNow;
+    public bool IsActive => RevokedAt is null && ExpiresAt > DateTime.UtcNow;
 
     /// <summary>Factory: the only way to bring a <see cref="UserSession"/> into existence.</summary>
     public static UserSession Create(

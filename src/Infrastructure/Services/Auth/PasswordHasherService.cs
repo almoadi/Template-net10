@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Template_net10.Application.Abstractions.Security;
 
-namespace Template_net10.Infrastructure.Services;
+namespace Template_net10.Infrastructure.Services.Auth;
 
 /// <summary>ASP.NET Core Identity PBKDF2-based password hashing behind the Application abstraction.</summary>
 public sealed class PasswordHasherService : IPasswordHasher

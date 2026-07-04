@@ -37,6 +37,20 @@ Never hardcode user-facing strings — always use the `Resource` enum + YAML fil
 | `ILocalizationService` | `Application/Abstractions/Localization/` |
 | `LocalizationService` | `Infrastructure/Services/LocalizationService.cs` |
 
+## When & How to Use It
+
+Localization is for any text a real person will read. Use it when:
+
+- **Your app serves more than one language** — English and Arabic are wired up out of the box, and
+  you add more locales the same way.
+- **You return an error or message** — instead of hardcoding `"User not found"`, add a `Resource`
+  enum key and translate it in every `*.yml` file, then call `_localization.GetMessage(...)`.
+- **Users should choose their language** — the request culture is picked from `?culture=ar`, a
+  cookie, or the `Accept-Language` header, so the same endpoint responds in the caller's language.
+
+**Rule of thumb:** if a string is ever shown to a user, it belongs in the YAML lang files — never
+inline in code. Add the key to **every** language file so no locale is left with a missing message.
+
 ## Related
 
 - [Adding Translations](/docs/localization/adding-translations)
