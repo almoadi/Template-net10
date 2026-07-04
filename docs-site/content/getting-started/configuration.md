@@ -4,10 +4,17 @@ Template-net10 uses a **Laravel-style** configuration system. Settings live in `
 
 ## How Config Is Loaded
 
-In `Program.cs`, each concern is loaded from a base file plus an optional per-environment override:
+In `Program.cs`, configuration is composed through a single extension:
 
 ```csharp
-foreach (var file in new[] { "app", "database", "cache", "mail", "jwt", "queue", "cors" })
+builder.AddSplitConfiguration();
+```
+
+Defined in `src/API/Extensions/ConfigurationExtensions.cs`, it loads each concern from a base file
+plus an optional per-environment override, then applies environment variables last:
+
+```csharp
+foreach (var file in ConfigFiles)
 {
     builder.Configuration
         .AddJsonFile($"config/{file}.json", optional: false, reloadOnChange: true)
@@ -33,6 +40,12 @@ Files support `//` comments and trailing commas (the .NET JSON config provider a
 | `jwt.json` | `JwtOptions` | [JWT config](/docs/configuration/jwt) |
 | `queue.json` | `QueueOptions` | [Queue config](/docs/configuration/queue) |
 | `cors.json` | — | [CORS config](/docs/configuration/cors) |
+| `storage.json` | `StorageOptions` | [Storage config](/docs/configuration/storage) |
+| `auth.json` | `AuthOptions` | [Auth config](/docs/configuration/auth) |
+| `socialite.json` | `SocialiteOptions` | [Socialite config](/docs/configuration/socialite) |
+| `features.json` | `FeatureFlagsOptions` | [Feature Flags config](/docs/configuration/features) |
+| `encryption.json` | `EncryptionOptions` | [Encryption config](/docs/configuration/encryption) |
+| `idempotency.json` | `IdempotencyOptions` | [Idempotency config](/docs/configuration/idempotency) |
 
 ## Secrets
 

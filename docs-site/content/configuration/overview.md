@@ -4,13 +4,25 @@ Settings are organized in Laravel-style JSON files under `src/API/config/`, load
 
 ## Loading Mechanism
 
+Configuration is composed in `Program.cs` through a single extension:
+
 ```csharp
-foreach (var file in new[] { "app", "database", "cache", "mail", "jwt", "queue", "cors" })
+builder.AddSplitConfiguration();
+```
+
+The list of concerns lives in `src/API/Extensions/ConfigurationExtensions.cs`. For each name it loads
+the base `config/{name}.json` plus an optional per-environment override, then re-applies environment
+variables last so container / host vars win:
+
+```csharp
+foreach (var file in ConfigFiles)
 {
     builder.Configuration
         .AddJsonFile($"config/{file}.json", optional: false, reloadOnChange: true)
         .AddJsonFile($"config/{builder.Environment.EnvironmentName}/{file}.json", optional: true, reloadOnChange: true);
 }
+
+builder.Configuration.AddEnvironmentVariables();
 ```
 
 ## File Structure
@@ -23,7 +35,14 @@ src/API/config/
 ├── mail.json
 ├── jwt.json
 ├── queue.json
+├── logging.json
 ├── cors.json
+├── storage.json
+├── features.json
+├── encryption.json
+├── idempotency.json
+├── auth.json
+├── socialite.json
 ├── Development/          # per-environment overrides
 ├── Staging/
 └── Production/
@@ -41,6 +60,12 @@ Each config file maps to a class in `Infrastructure/Options/`:
 | `mail.json` | `MailOptions` |
 | `jwt.json` | `JwtOptions` |
 | `queue.json` | `QueueOptions` |
+| `storage.json` | `StorageOptions` |
+| `auth.json` | `AuthOptions` |
+| `socialite.json` | `SocialiteOptions` |
+| `features.json` | `FeatureFlagsOptions` |
+| `encryption.json` | `EncryptionOptions` |
+| `idempotency.json` | `IdempotencyOptions` |
 
 Registered in `Infrastructure/DependencyInjection.cs` via `services.Configure<T>(...)`.
 

@@ -315,15 +315,20 @@ src/API/config/
 Each file carries `//` comments documenting its options and the **available driver values** — the
 .NET configuration JSON provider allows comments and trailing commas.
 
-Loading (base file required; per-environment override in a `config/{Environment}/` subfolder, optional):
+Loading (base file required; per-environment override in a `config/{Environment}/` subfolder, optional).
+`Program.cs` composes it with one call — `builder.AddSplitConfiguration()` — defined in
+[`src/API/Extensions/ConfigurationExtensions.cs`](../src/API/Extensions/ConfigurationExtensions.cs),
+which iterates a `ConfigFiles` array and applies environment variables last:
 
 ```csharp
-foreach (var file in new[] { "app", "database", "cache", "mail", "jwt", "queue" })
+foreach (var file in ConfigFiles)
 {
     builder.Configuration
         .AddJsonFile($"config/{file}.json", optional: false, reloadOnChange: true)
         .AddJsonFile($"config/{builder.Environment.EnvironmentName}/{file}.json", optional: true, reloadOnChange: true);
 }
+
+builder.Configuration.AddEnvironmentVariables();
 ```
 
 So `config/database.json` is the base and `config/Development/database.json`, `config/Production/mail.json`,
@@ -352,7 +357,8 @@ Each section is bound to a strongly-typed **options** class in
   detailed/sensitive diagnostics). It falls back to `ConnectionStrings:DefaultConnection` if blank.
 - `cache.json` selects the cache provider: `Memory` (default) or `Redis` (set `Driver` + `RedisConnection`).
 
-**Add a new config file:** create `config/<name>.json`, add `"<name>"` to the loop in `Program.cs`,
+**Add a new config file:** create `config/<name>.json`, add `"<name>"` to the `ConfigFiles` array in
+[`src/API/Extensions/ConfigurationExtensions.cs`](../src/API/Extensions/ConfigurationExtensions.cs),
 add a matching `<Name>Options` class, and `services.Configure<<Name>Options>(...)` in `AddInfrastructure`.
 The `config/*.json` files are copied to the output directory via a `<Content Update=... CopyToOutputDirectory>`
 item in the API csproj. The `resources/**/*.yml` language files are copied the same way.

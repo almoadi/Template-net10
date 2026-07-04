@@ -308,13 +308,15 @@ See [`docs/ARCHITECTURE.md` §6](docs/ARCHITECTURE.md) for the full Auth facade 
 Settings live in `src/API/config/`, one file per concern, bound to options classes in `src/Infrastructure/Options/`.
 
 ```csharp
-// Program.cs — add new config files to this array
-foreach (var file in new[] { "app", "database", "cache", "mail", "jwt", "queue" })
-{
-    builder.Configuration
-        .AddJsonFile($"config/{file}.json", optional: false, reloadOnChange: true)
-        .AddJsonFile($"config/{builder.Environment.EnvironmentName}/{file}.json", optional: true, reloadOnChange: true);
-}
+// Program.cs composes configuration through one extension:
+builder.AddSplitConfiguration();
+
+// src/API/Extensions/ConfigurationExtensions.cs — add a new concern to this array:
+private static readonly string[] ConfigFiles =
+[
+    "app", "database", "cache", "mail", "jwt", "queue", "logging",
+    "cors", "storage", "features", "encryption", "idempotency", "auth", "socialite",
+];
 ```
 
 | File | Section | Options class | Drivers / notes |
@@ -388,7 +390,7 @@ dotnet ef database update        --project src/Infrastructure --startup-project 
 ### Add a config section
 
 1. `config/{name}.json` (+ optional `config/{Environment}/{name}.json`).
-2. Add `"{name}"` to the loop in `Program.cs`.
+2. Add `"{name}"` to the `ConfigFiles` array in `Extensions/ConfigurationExtensions.cs`.
 3. `{Name}Options` in `Infrastructure/Options/`.
 4. `services.Configure<{Name}Options>(...)` in `AddInfrastructure`.
 
