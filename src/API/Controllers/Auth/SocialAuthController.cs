@@ -24,12 +24,9 @@ public sealed class SocialAuthController : ApiControllerBase
     [HttpPost("{provider}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ApiResponseDto<AuthTokenDto>))]
     public async Task<ActionResult<ApiResponseDto<AuthTokenDto>>> Login(
-        [FromRoute] SocialProvider provider, [FromBody] SocialLoginRequest request)
-        => await Sender.Send(new SocialLoginCommand { Provider = provider, AccessToken = request.AccessToken });
-}
-
-/// <summary>Body for a social login request — the provider access token from the front-end OAuth flow.</summary>
-public sealed class SocialLoginRequest
-{
-    public string AccessToken { get; set; } = string.Empty;
+        [FromRoute] SocialProvider provider, [FromBody] SocialLoginCommand command)
+    {
+        command.Provider = provider;        // route value always wins
+        return await Sender.Send(command);
+    }
 }
