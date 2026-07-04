@@ -1,0 +1,10 @@
+{
+  // Feature flags (the .NET analog of Laravel Pennant). Toggle features without a redeploy;
+  // reloadOnChange means edits here take effect at runtime. Override per environment in
+  // config/{Environment}/features.json (e.g. enable a feature only in Staging).
+  "Features": {
+    "Flags": {
+      "example-feature": false
+    }
+  }
+}

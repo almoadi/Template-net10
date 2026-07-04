@@ -313,7 +313,7 @@ Secrets (`jwt.json` SecretKey, mail credentials, real DB strings) come from user
 |---------|-------|
 | **RBAC** | `Domain/Auth/Entities`; permission codes in `Domain/Auth/Constants` |
 | **Auth facade** | `IAuth` + static `Auth` (Application); `AuthService` (Infrastructure) |
-| **Authorization** | `[HasPermission]` → `PermissionPolicyProvider` + `PermissionAuthorizationHandler` |
+| **Authorization** | `[HasPermission]` / `[HasRole]` → `AuthorizationPolicyProvider` + `PermissionAuthorizationHandler` / `RoleAuthorizationHandler` |
 | **Localization** | `resources/lang/{en,ar}.yml`; `LocalizationService`; `Resource` enum |
 | **Mail** | `IEmailSender` → `SmtpEmailSender`; no HTTP endpoint — call from your use cases |
 | **Queue / jobs** | `IJobScheduler` → Hangfire; job interfaces in `Application/Abstractions/Jobs`; dashboard `/hangfire` |

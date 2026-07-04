@@ -8,7 +8,7 @@ using Template_net10.Application.Auth.Users.Queries.GetUserById;
 using Template_net10.Application.Auth.Users.Queries.SearchUsers;
 using Template_net10.Application.Common.Models;
 using Template_net10.Domain.Auth.Constants;
-using Template_net10.Infrastructure.Authorization;
+using Template_net10.Infrastructure.Authorization.Permissions;
 
 namespace Template_net10.API.Controllers.Auth;
 

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 
-namespace Template_net10.Infrastructure.Authorization;
+namespace Template_net10.Infrastructure.Authorization.Permissions;
 
 /// <summary>Succeeds when the caller carries a matching <c>permission</c> claim.</summary>
 public sealed class PermissionAuthorizationHandler : AuthorizationHandler<PermissionRequirement>

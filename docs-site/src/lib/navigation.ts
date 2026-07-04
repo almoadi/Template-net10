@@ -76,6 +76,8 @@ export const navigation: NavSection[] = [
       { title: 'Validation', slug: 'api/validation' },
       { title: 'Exception Handling', slug: 'api/exception-handling' },
       { title: 'Rate Limiting', slug: 'api/rate-limiting' },
+      { title: 'Correlation ID', slug: 'api/correlation-id' },
+      { title: 'Security Headers', slug: 'api/security-headers' },
     ],
   },
   {
@@ -89,6 +91,8 @@ export const navigation: NavSection[] = [
       { title: 'JWT', slug: 'configuration/jwt' },
       { title: 'Queue', slug: 'configuration/queue' },
       { title: 'CORS', slug: 'configuration/cors' },
+      { title: 'Storage', slug: 'configuration/storage' },
+      { title: 'Feature Flags', slug: 'configuration/features' },
     ],
   },
   {
@@ -114,7 +118,22 @@ export const navigation: NavSection[] = [
   },
   {
     title: 'Caching',
-    items: [{ title: 'Overview', slug: 'caching/overview' }],
+    items: [
+      { title: 'Overview', slug: 'caching/overview' },
+      { title: 'Cache Service', slug: 'caching/cache-service' },
+    ],
+  },
+  {
+    title: 'Storage',
+    items: [{ title: 'Overview', slug: 'storage/overview' }],
+  },
+  {
+    title: 'Feature Flags',
+    items: [{ title: 'Overview', slug: 'features/overview' }],
+  },
+  {
+    title: 'Utilities',
+    items: [{ title: 'Clock', slug: 'utilities/clock' }],
   },
   {
     title: 'Database',

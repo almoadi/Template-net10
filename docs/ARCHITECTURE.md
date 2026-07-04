@@ -228,11 +228,14 @@ paging behaviour in one place. Defaults: page size 20, max 100.
   rotates the refresh token and issues a new access token; `POST /api/auth/logout` revokes the current
   session; `POST /api/auth/logout-all` revokes every session of the user; `GET /api/auth/sessions`
   lists the caller's active sessions. Refresh-token lifetime is `Jwt:RefreshTokenExpiryDays`.
-- **Authorize** endpoints with `[HasPermission(AuthPermissionCodes.UsersWrite)]`. The attribute
-  encodes the permission into a policy name resolved on demand by
-  [`PermissionPolicyProvider`](../src/Infrastructure/Authorization/PermissionPolicyProvider.cs), and
-  [`PermissionAuthorizationHandler`](../src/Infrastructure/Authorization/PermissionAuthorizationHandler.cs)
-  checks the caller's `permission` claims.
+- **Authorize** endpoints with `[HasPermission(AuthPermissionCodes.UsersWrite)]` (fine-grained) or
+  `[HasRole(AuthRoles.Admin)]` (coarse, any-of). Each attribute encodes its requirement into a policy
+  name resolved on demand by
+  [`AuthorizationPolicyProvider`](../src/Infrastructure/Authorization/AuthorizationPolicyProvider.cs);
+  [`PermissionAuthorizationHandler`](../src/Infrastructure/Authorization/Permissions/PermissionAuthorizationHandler.cs)
+  checks the caller's `permission` claims and
+  [`RoleAuthorizationHandler`](../src/Infrastructure/Authorization/Roles/RoleAuthorizationHandler.cs)
+  checks the caller's role claims.
 
 **Adding a permission:**
 
@@ -257,7 +260,7 @@ two ways to use it:
 1. **Inject** [`IAuth`](../src/Application/Abstractions/Security/IAuth.cs) into any handler/service (preferred — testable).
 2. **Static** [`Auth`](../src/Application/Common/Facades/Auth.cs) facade for Laravel ergonomics
    (`Auth.Check`, `Auth.Id`, `Auth.User()`, …). It proxies to the request-scoped `IAuth`; the resolver
-   is wired once at startup by `app.UseAuthFacade()`. Valid only inside an HTTP request.
+   is wired once at startup by `app.UseFacades()`. Valid only inside an HTTP request.
 
 | Member | Laravel equivalent | Description |
 |--------|--------------------|-------------|

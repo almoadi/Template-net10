@@ -40,7 +40,7 @@ Two ways to access the current user in handlers:
 1. **Inject `IAuth`** (preferred, testable)
 2. **Static `Auth` facade** — `Auth.Id`, `Auth.Check`, `Auth.User()`, `Auth.Can(permission)`
 
-The facade is wired at startup via `app.UseAuthFacade()` and is valid only inside HTTP requests.
+The facade is wired at startup via `app.UseFacades()` and is valid only inside HTTP requests.
 
 ## Endpoints
 

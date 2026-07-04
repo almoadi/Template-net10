@@ -9,6 +9,8 @@ using Template_net10.Application.Abstractions.Jobs;
 using Template_net10.Application.Abstractions.Messaging;
 using Template_net10.Application.Auth.Users.Events;
 using Template_net10.Infrastructure.Authorization;
+using Template_net10.Infrastructure.Authorization.Permissions;
+using Template_net10.Infrastructure.Authorization.Roles;
 using Template_net10.Infrastructure.Data;
 using Template_net10.Infrastructure.Jobs;
 using Template_net10.Infrastructure.Middleware;
@@ -29,7 +31,8 @@ public static class DependencyInjection
         services.Configure<CacheOptions>(configuration.GetSection(CacheOptions.SectionName));
         services.Configure<MailOptions>(configuration.GetSection(MailOptions.SectionName));
         services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SectionName));
-
+        services.Configure<StorageOptions>(configuration.GetSection(StorageOptions.SectionName));
+        services.Configure<FeatureFlagsOptions>(configuration.GetSection(FeatureFlagsOptions.SectionName));
         var database = configuration.GetSection(DatabaseOptions.SectionName).Get<DatabaseOptions>() ?? new DatabaseOptions();
         var cache = configuration.GetSection(CacheOptions.SectionName).Get<CacheOptions>() ?? new CacheOptions();
 
@@ -73,9 +76,10 @@ public static class DependencyInjection
             .AsImplementedInterfaces()
             .WithScopedLifetime());
 
-        // Permission-based authorization.
-        services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+        // Permission- and role-based authorization.
+        services.AddSingleton<IAuthorizationPolicyProvider, AuthorizationPolicyProvider>();
         services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
+        services.AddSingleton<IAuthorizationHandler, RoleAuthorizationHandler>();
         services.AddAuthorization();
 
         // Cache: driver selected in config/cache.json (Memory or Redis).
@@ -93,6 +97,8 @@ public static class DependencyInjection
         }
 
         services.AddScoped<ExceptionHandlingMiddleware>();
+        services.AddScoped<CorrelationIdMiddleware>();
+        services.AddScoped<SecurityHeadersMiddleware>();
 
         // Background jobs / queue: Hangfire backed by SQL Server (config/queue.json).
         services.Configure<QueueOptions>(configuration.GetSection(QueueOptions.SectionName));

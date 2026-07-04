@@ -10,7 +10,9 @@ public static class MiddlewarePipelineExtensions
     /// <summary>Composes the HTTP request pipeline in the correct order.</summary>
     public static WebApplication UseApiPipeline(this WebApplication app)
     {
+        app.UseMiddleware<CorrelationIdMiddleware>();
         app.UseMiddleware<ExceptionHandlingMiddleware>();
+        app.UseMiddleware<SecurityHeadersMiddleware>();
 
         if (app.Environment.IsDevelopment())
         {

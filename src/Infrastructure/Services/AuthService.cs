@@ -9,7 +9,7 @@ using Template_net10.Application.Abstractions.Security;
 using Template_net10.Application.Auth;
 using Template_net10.Application.Auth.Authentication;
 using Template_net10.Domain.Auth.Entities;
-using Template_net10.Infrastructure.Authorization;
+using Template_net10.Infrastructure.Authorization.Permissions;
 using Template_net10.Infrastructure.Options;
 
 namespace Template_net10.Infrastructure.Services;

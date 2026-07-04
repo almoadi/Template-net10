@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 
-namespace Template_net10.Infrastructure.Authorization;
+namespace Template_net10.Infrastructure.Authorization.Permissions;
 
 public sealed class PermissionRequirement : IAuthorizationRequirement
 {

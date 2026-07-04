@@ -1,0 +1,10 @@
+{
+  // File storage settings (the .NET analog of Laravel's config/filesystems.php).
+  "Storage": {
+    // Driver — available values:
+    //   "Local" : store files on the local file system under Root (default).
+    "Driver": "Local",
+    "Root": "storage/app",        // Directory for stored files (relative to the content root, or absolute).
+    "PublicUrl": "/storage"       // Base URL used by Storage.Url(...) to build public links.
+  }
+}

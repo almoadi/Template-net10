@@ -1,4 +1,4 @@
-namespace Template_net10.Infrastructure.Authorization;
+namespace Template_net10.Infrastructure.Authorization.Permissions;
 
 internal static class PermissionConstants
 {

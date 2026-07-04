@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Template_net10.Application.Abstractions.Security;
-using Template_net10.Infrastructure.Authorization;
+using Template_net10.Infrastructure.Authorization.Permissions;
 using Template_net10.Infrastructure.Options;
 
 namespace Template_net10.Infrastructure.Services;
