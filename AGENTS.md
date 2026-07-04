@@ -325,6 +325,7 @@ foreach (var file in new[] { "app", "database", "cache", "mail", "jwt", "queue" 
 | `mail.json` | `Mail` | `MailOptions` | `Log` \| `Smtp` |
 | `jwt.json` | `Jwt` | `JwtOptions` | Issuer, secret, expiry |
 | `queue.json` | `Queue` | `QueueOptions` | Hangfire dashboard, queues |
+| `auth.json` | `Auth` | `AuthOptions` | Optional email verification, 2FA (email OTP), token lifetimes |
 
 Secrets (`jwt.json` SecretKey, mail credentials, real DB strings) come from user-secrets / environment variables / a vault — **never committed**.
 

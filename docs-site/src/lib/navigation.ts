@@ -39,6 +39,7 @@ export const navigation: NavSection[] = [
       { title: 'Refresh Tokens', slug: 'authentication/refresh-tokens' },
       { title: 'Sessions', slug: 'authentication/sessions' },
       { title: 'Logout', slug: 'authentication/logout' },
+      { title: 'Email Verification & 2FA', slug: 'authentication/account-security' },
     ],
   },
   {
@@ -91,6 +92,7 @@ export const navigation: NavSection[] = [
       { title: 'Cache', slug: 'configuration/cache' },
       { title: 'Mail', slug: 'configuration/mail' },
       { title: 'JWT', slug: 'configuration/jwt' },
+      { title: 'Auth', slug: 'configuration/auth' },
       { title: 'Queue', slug: 'configuration/queue' },
       { title: 'CORS', slug: 'configuration/cors' },
       { title: 'Storage', slug: 'configuration/storage' },

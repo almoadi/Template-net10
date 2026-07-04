@@ -20,6 +20,8 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(x => x.Email).IsRequired().HasMaxLength(LengthConstants.L255);
         builder.Property(x => x.Phone).IsRequired().HasMaxLength(LengthConstants.L20);
         builder.Property(x => x.PasswordHash).IsRequired().HasMaxLength(LengthConstants.L500);
+        builder.Property(x => x.EmailVerifiedAt);
+        builder.Property(x => x.TwoFactorEnabled).IsRequired();
 
         builder.HasIndex(x => x.Email).IsUnique().HasFilter("[DeletedAt] IS NULL");
         builder.HasIndex(x => x.Phone).IsUnique().HasFilter("[DeletedAt] IS NULL");

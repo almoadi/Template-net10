@@ -341,6 +341,7 @@ Each section is bound to a strongly-typed **options** class in
 | `mail.json` | `Mail` | `MailOptions` |
 | `jwt.json` | `Jwt` | `JwtOptions` |
 | `queue.json` | `Queue` | `QueueOptions` |
+| `auth.json` | `Auth` | `AuthOptions` |
 
 - `app.json` holds general app settings (name, URL, version, time zone) and the localization locales.
   `App:SupportedLocales` + `App:DefaultLocale` drive **request localization** (`AddAppLocalization` →

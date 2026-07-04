@@ -25,6 +25,15 @@ public class User : BaseEntity, IEmitsCreatedEvent, IEmitsDeletedEvent
 
     public string PasswordHash { get; private set; } = string.Empty;
 
+    /// <summary>When the user's email was confirmed, or <c>null</c> if unverified.</summary>
+    public DateTime? EmailVerifiedAt { get; private set; }
+
+    /// <summary>True once the user's email has been verified.</summary>
+    public bool IsEmailVerified => EmailVerifiedAt is not null;
+
+    /// <summary>Whether this user must complete a two-factor (email OTP) step at login.</summary>
+    public bool TwoFactorEnabled { get; private set; }
+
     public IReadOnlyCollection<UserRole> UserRoles => _userRoles.AsReadOnly();
 
     public static User Create(string nameEn, string nameAr, string email, string phone, string passwordHash)
@@ -51,6 +60,30 @@ public class User : BaseEntity, IEmitsCreatedEvent, IEmitsDeletedEvent
     public void SetPasswordHash(string passwordHash)
     {
         PasswordHash = passwordHash;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    /// <summary>Marks the email as verified. Idempotent.</summary>
+    public void MarkEmailVerified()
+    {
+        if (EmailVerifiedAt is not null)
+        {
+            return;
+        }
+
+        EmailVerifiedAt = DateTime.UtcNow;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void EnableTwoFactor()
+    {
+        TwoFactorEnabled = true;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void DisableTwoFactor()
+    {
+        TwoFactorEnabled = false;
         UpdatedAt = DateTime.UtcNow;
     }
 

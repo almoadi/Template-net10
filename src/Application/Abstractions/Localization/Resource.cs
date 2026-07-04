@@ -19,4 +19,19 @@ public enum Resource
     RoleCreated,
     RoleNotFound,
     RolesAssigned,
+
+    // Account security (email verification, password reset, two-factor)
+    EmailVerificationSent,
+    EmailVerified,
+    EmailNotVerified,
+    PasswordResetSent,
+    PasswordReset,
+    TwoFactorRequired,
+    InvalidOrExpiredCode,
+    EmailVerificationSubject,
+    EmailVerificationBody,
+    PasswordResetSubject,
+    PasswordResetBody,
+    TwoFactorSubject,
+    TwoFactorBody,
 }

@@ -12,6 +12,8 @@
     <Content Update="config\**\*.json" CopyToOutputDirectory="PreserveNewest" />
     <None Remove="resources\**\*.yml" />
     <Content Include="resources\**\*.yml" CopyToOutputDirectory="PreserveNewest" />
+    <None Remove="resources\**\*.html" />
+    <Content Include="resources\**\*.html" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>

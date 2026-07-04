@@ -35,6 +35,7 @@ public static class DependencyInjection
         services.Configure<FeatureFlagsOptions>(configuration.GetSection(FeatureFlagsOptions.SectionName));
         services.Configure<EncryptionOptions>(configuration.GetSection(EncryptionOptions.SectionName));
         services.Configure<IdempotencyOptions>(configuration.GetSection(IdempotencyOptions.SectionName));
+        services.Configure<AuthOptions>(configuration.GetSection(AuthOptions.SectionName));
         var database = configuration.GetSection(DatabaseOptions.SectionName).Get<DatabaseOptions>() ?? new DatabaseOptions();
         var cache = configuration.GetSection(CacheOptions.SectionName).Get<CacheOptions>() ?? new CacheOptions();
 
