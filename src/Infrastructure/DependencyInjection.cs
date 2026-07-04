@@ -38,6 +38,7 @@ public static class DependencyInjection
         services.Configure<EncryptionOptions>(configuration.GetSection(EncryptionOptions.SectionName));
         services.Configure<IdempotencyOptions>(configuration.GetSection(IdempotencyOptions.SectionName));
         services.Configure<AuthOptions>(configuration.GetSection(AuthOptions.SectionName));
+        services.Configure<SocialiteOptions>(configuration.GetSection(SocialiteOptions.SectionName));
         var database = configuration.GetSection(DatabaseOptions.SectionName).Get<DatabaseOptions>() ?? new DatabaseOptions();
         var cache = configuration.GetSection(CacheOptions.SectionName).Get<CacheOptions>() ?? new CacheOptions();
 
@@ -73,6 +74,9 @@ public static class DependencyInjection
         services.AddScoped<ApplicationDbInitializer>();
 
         services.AddHttpContextAccessor();
+
+        // HttpClient factory — used by social login provider drivers to call provider userinfo endpoints.
+        services.AddHttpClient();
 
         // Scan Infrastructure.Services (and its feature sub-namespaces) and bind each implementation
         // to its interface(s). The prefix filter keeps every service under Services/ registered no

@@ -36,6 +36,7 @@ export const navigation: NavSection[] = [
     items: [
       { title: 'Overview', slug: 'authentication/overview' },
       { title: 'Login', slug: 'authentication/login' },
+      { title: 'Social Login', slug: 'authentication/social-login' },
       { title: 'Refresh Tokens', slug: 'authentication/refresh-tokens' },
       { title: 'Sessions', slug: 'authentication/sessions' },
       { title: 'Logout', slug: 'authentication/logout' },
@@ -97,6 +98,7 @@ export const navigation: NavSection[] = [
       { title: 'CORS', slug: 'configuration/cors' },
       { title: 'Storage', slug: 'configuration/storage' },
       { title: 'Feature Flags', slug: 'configuration/features' },
+      { title: 'Socialite', slug: 'configuration/socialite' },
       { title: 'Encryption', slug: 'configuration/encryption' },
       { title: 'Idempotency', slug: 'configuration/idempotency' },
     ],

@@ -337,6 +337,7 @@ Secrets (`jwt.json` SecretKey, mail credentials, real DB strings) come from user
 |---------|-------|
 | **RBAC** | `Domain/Auth/Entities`; permission codes in `Domain/Auth/Constants` |
 | **Auth facade** | `IAuth` + static `Auth` (Application); `AuthService` (Infrastructure) |
+| **Social login** | `ISocialite` + static `Socialite` (Application); `SocialiteService` + `ISocialProviderDriver` (Google/Azure) in `Infrastructure/Services/Auth/Social`; token-based, `POST /api/auth/social/{provider}`; config `config/socialite.json` |
 | **Authorization** | `[HasPermission]` / `[HasRole]` → `AuthorizationPolicyProvider` + `PermissionAuthorizationHandler` / `RoleAuthorizationHandler` |
 | **Localization** | `resources/lang/{en,ar}.yml`; `LocalizationService`; `Resource` enum |
 | **Mail** | `IEmailSender` → `SmtpEmailSender`; no HTTP endpoint — call from your use cases |

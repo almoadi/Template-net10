@@ -24,7 +24,7 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(x => x.TwoFactorEnabled).IsRequired();
 
         builder.HasIndex(x => x.Email).IsUnique().HasFilter("[DeletedAt] IS NULL");
-        builder.HasIndex(x => x.Phone).IsUnique().HasFilter("[DeletedAt] IS NULL");
+        builder.HasIndex(x => x.Phone).IsUnique().HasFilter("[DeletedAt] IS NULL AND [Phone] <> ''");
 
         builder.Metadata
             .FindNavigation(nameof(User.UserRoles))!

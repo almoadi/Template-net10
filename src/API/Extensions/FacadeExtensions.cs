@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Http;
+using Template_net10.Application.Abstractions.Auth.Social;
 using Template_net10.Application.Abstractions.Caching;
 using Template_net10.Application.Abstractions.Encryption;
 using Template_net10.Application.Abstractions.Features;
@@ -12,9 +13,9 @@ public static class FacadeExtensions
 {
     /// <summary>
     /// Initializes every static facade (<c>Auth</c>, <c>Cache</c>, <c>Storage</c>, <c>Feature</c>,
-    /// <c>Crypt</c>, <c>Hash</c>) so each resolves its request-scoped service from the current
-    /// <see cref="HttpContext"/>. Call once after the app is built. Prefer injecting the underlying
-    /// interfaces; facades exist for Laravel-like ergonomics.
+    /// <c>Crypt</c>, <c>Hash</c>, <c>Socialite</c>) so each resolves its request-scoped service from the
+    /// current <see cref="HttpContext"/>. Call once after the app is built. Prefer injecting the
+    /// underlying interfaces; facades exist for Laravel-like ergonomics.
     /// </summary>
     public static WebApplication UseFacades(this WebApplication app)
     {
@@ -26,6 +27,7 @@ public static class FacadeExtensions
         Feature.SetResolver(() => Resolve<IFeatureFlags>(httpContextAccessor));
         Crypt.SetResolver(() => Resolve<IEncryptor>(httpContextAccessor));
         Hash.SetResolver(() => Resolve<IPasswordHasher>(httpContextAccessor));
+        Socialite.SetResolver(() => Resolve<ISocialite>(httpContextAccessor));
 
         return app;
     }

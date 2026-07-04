@@ -4,7 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Laravel-style split configuration: each concern lives in its own config/*.json file,
 // with an optional per-environment override in config/{Environment}/*.json (e.g. config/Production/mail.json).
-foreach (var file in new[] { "app", "database", "cache", "mail", "jwt", "queue", "logging", "cors", "storage", "features", "encryption", "idempotency", "auth" })
+foreach (var file in new[] { "app", "database", "cache", "mail", "jwt", "queue", "logging", "cors", "storage", "features", "encryption", "idempotency", "auth", "socialite" })
 {
     builder.Configuration
         .AddJsonFile($"config/{file}.json", optional: false, reloadOnChange: true)

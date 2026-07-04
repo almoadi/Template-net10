@@ -20,6 +20,8 @@ public sealed class ApplicationDbContext : GlobalFilteredDbContext, IApplication
 
     public DbSet<UserSession> UserSessions => Set<UserSession>();
 
+    public DbSet<SocialAccount> SocialAccounts => Set<SocialAccount>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);

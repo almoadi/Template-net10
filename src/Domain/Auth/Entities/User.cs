@@ -47,6 +47,23 @@ public class User : BaseEntity, IEmitsCreatedEvent, IEmitsDeletedEvent
             IsActive = true,
         };
 
+    /// <summary>
+    /// Factory for a user provisioned through social login (Laravel Socialite style). The account has
+    /// no local password and its email is treated as verified because the external provider vouches
+    /// for it. Phone is left blank — no unique local phone is required for social accounts.
+    /// </summary>
+    public static User CreateFromSocial(string nameEn, string nameAr, string email)
+        => new()
+        {
+            NameEn = nameEn,
+            NameAr = nameAr,
+            Email = NormalizeEmail(email),
+            Phone = string.Empty,
+            PasswordHash = string.Empty,
+            EmailVerifiedAt = DateTime.UtcNow,
+            IsActive = true,
+        };
+
     public User Update(string? nameEn, string? nameAr, string? email, string? phone)
     {
         NameEn = nameEn ?? NameEn;

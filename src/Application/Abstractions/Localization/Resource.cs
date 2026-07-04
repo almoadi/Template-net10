@@ -34,4 +34,8 @@ public enum Resource
     PasswordResetBody,
     TwoFactorSubject,
     TwoFactorBody,
+
+    // Social login (Laravel Socialite style)
+    SocialProviderNotConfigured,
+    SocialLoginFailed,
 }

@@ -18,5 +18,7 @@ public interface IApplicationDbContext
 
     DbSet<UserSession> UserSessions { get; }
 
+    DbSet<SocialAccount> SocialAccounts { get; }
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

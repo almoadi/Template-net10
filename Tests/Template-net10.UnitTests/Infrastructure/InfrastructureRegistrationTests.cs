@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using Template_net10.Application.Abstractions.Account;
+using Template_net10.Application.Abstractions.Auth.Social;
 using Template_net10.Application.Abstractions.Caching;
 using Template_net10.Application.Abstractions.Encryption;
 using Template_net10.Application.Abstractions.Excel;
@@ -64,6 +65,7 @@ public sealed class InfrastructureRegistrationTests
     [TestCase(typeof(IPdfRenderer))]
     [TestCase(typeof(IRealtimeNotifier))]
     [TestCase(typeof(IAccountService))]
+    [TestCase(typeof(ISocialite))]
     public void Registers_service_from_every_feature_subfolder(Type serviceType)
     {
         var services = BuildInfrastructure();

@@ -1,0 +1,15 @@
+{
+  // Social login settings (the .NET analog of Laravel's Socialite config in config/services.php).
+  // Token-based flow: the front end obtains a provider access token, then posts it to
+  // POST /api/auth/social/{provider}. Each provider is opt-in via its "Enabled" flag.
+  "Socialite": {
+    "Google": {
+      "Enabled": false, // Set true to allow Google sign-in.
+      "ClientId": ""    // Optional OAuth client id (documentation / audience validation where supported).
+    },
+    "Azure": {
+      "Enabled": false, // Set true to allow Microsoft Entra ID (Azure AD) sign-in.
+      "ClientId": ""    // Optional application (client) id from the Entra app registration.
+    }
+  }
+}
