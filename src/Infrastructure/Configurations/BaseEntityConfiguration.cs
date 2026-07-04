@@ -13,5 +13,7 @@ public static class BaseEntityConfiguration
         builder.Property(x => x.IsActive).IsRequired();
         builder.Property(x => x.CreatedAt).IsRequired();
         builder.Property(x => x.UpdatedAt);
+        builder.Property(x => x.CreatedAtHijri).IsRequired().HasMaxLength(LengthConstants.L20);
+        builder.Property(x => x.UpdatedAtHijri).HasMaxLength(LengthConstants.L20);
     }
 }

@@ -12,6 +12,7 @@ public sealed class UserSessionConfiguration : IEntityTypeConfiguration<UserSess
         builder.ToTable("UserSessions");
 
         builder.HasKey(x => x.Id);
+        BaseEntityConfiguration.Configure(builder);
 
         builder.Property(x => x.UserId).IsRequired();
         builder.Property(x => x.RefreshTokenHash).IsRequired().HasMaxLength(LengthConstants.L255);
