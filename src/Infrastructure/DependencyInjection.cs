@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Template_net10.Application.Abstractions.Data;
 using Template_net10.Application.Abstractions.Jobs;
 using Template_net10.Application.Abstractions.Messaging;
+using Template_net10.Application.Abstractions.Storage;
 using Template_net10.Application.Auth.Users.Events;
 using Template_net10.Infrastructure.Authorization;
 using Template_net10.Infrastructure.Authorization.Permissions;
@@ -16,6 +17,7 @@ using Template_net10.Infrastructure.Jobs;
 using Template_net10.Infrastructure.Middleware;
 using Template_net10.Infrastructure.Options;
 using Template_net10.Infrastructure.Services.Messaging;
+using Template_net10.Infrastructure.Services.Storage;
 
 namespace Template_net10.Infrastructure;
 
@@ -74,14 +76,27 @@ public static class DependencyInjection
 
         // Scan Infrastructure.Services (and its feature sub-namespaces) and bind each implementation
         // to its interface(s). The prefix filter keeps every service under Services/ registered no
-        // matter which feature subfolder it lives in.
+        // matter which feature subfolder it lives in. Storage is excluded here and registered
+        // explicitly below so the driver is chosen from config (Local or S3).
         services.Scan(scan => scan
             .FromAssemblyOf<ApplicationDbContext>()
             .AddClasses(c => c.Where(t =>
                 t.Namespace is not null &&
-                t.Namespace.StartsWith("Template_net10.Infrastructure.Services", StringComparison.Ordinal)))
+                t.Namespace.StartsWith("Template_net10.Infrastructure.Services", StringComparison.Ordinal) &&
+                !t.Namespace.StartsWith("Template_net10.Infrastructure.Services.Storage", StringComparison.Ordinal)))
             .AsImplementedInterfaces()
             .WithScopedLifetime());
+
+        // File storage: driver selected in config/storage.json (Local file system or AWS S3).
+        var storage = configuration.GetSection(StorageOptions.SectionName).Get<StorageOptions>() ?? new StorageOptions();
+        if (storage.Driver == StorageDriver.S3)
+        {
+            services.AddScoped<IStorage, S3Storage>();
+        }
+        else
+        {
+            services.AddScoped<IStorage, LocalStorage>();
+        }
 
         // Permission- and role-based authorization.
         services.AddSingleton<IAuthorizationPolicyProvider, AuthorizationPolicyProvider>();

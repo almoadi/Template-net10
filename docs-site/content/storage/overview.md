@@ -50,8 +50,34 @@ only valid inside an HTTP request.
 | Driver | Config | Use case |
 |--------|--------|----------|
 | `Local` | `Storage:Driver = "Local"` | Files on local disk under `Root` (default) |
+| `S3` | `Storage:Driver = "S3"` | AWS S3 or S3-compatible object storage (MinIO, etc.) |
 
-Swap the Infrastructure `LocalStorage` implementation for blob/object storage without changing any handler.
+The driver is chosen from `config/storage.json` and wired in `Infrastructure/DependencyInjection.cs`.
+Swap or add an implementation (blob/object storage) without changing any handler — they only depend
+on `IStorage`.
+
+### AWS S3
+
+Set `Storage:Driver` to `S3` and fill in the `Storage:S3` section:
+
+```json
+{
+  "Storage": {
+    "Driver": "S3",
+    "S3": {
+      "Bucket": "my-app-uploads",
+      "Region": "eu-west-1",
+      "PublicUrl": "https://cdn.example.com"
+    }
+  }
+}
+```
+
+Leave `AccessKeyId` / `SecretAccessKey` empty to use the default AWS credential chain (IAM role,
+environment variables, or a shared profile). For S3-compatible servers such as MinIO, set
+`ServiceUrl` (e.g. `http://localhost:9000`) and `ForcePathStyle: true`. Implemented by
+`S3Storage` (Infrastructure) using the AWS SDK (`AWSSDK.S3`).
+
 
 ## When & How to Use It
 

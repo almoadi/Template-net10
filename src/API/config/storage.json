@@ -3,8 +3,20 @@
   "Storage": {
     // Driver — available values:
     //   "Local" : store files on the local file system under Root (default).
+    //   "S3"    : store files in an AWS S3 (or S3-compatible) bucket using the S3 settings below.
     "Driver": "Local",
     "Root": "storage/app",        // Directory for stored files (relative to the content root, or absolute).
-    "PublicUrl": "/storage"       // Base URL used by Storage.Url(...) to build public links.
+    "PublicUrl": "/storage",      // Base URL used by Storage.Url(...) to build public links (Local driver).
+
+    // S3 driver settings (used only when Driver = "S3").
+    "S3": {
+      "Bucket": "",               // Target bucket name (required for the S3 driver).
+      "Region": "us-east-1",      // AWS region system name. Ignored when ServiceUrl is set.
+      "AccessKeyId": "",          // Leave empty to use the default AWS credential chain (IAM role, env vars, profile).
+      "SecretAccessKey": "",      // Keep secrets out of source control — use user-secrets / env vars in real environments.
+      "ServiceUrl": "",           // Optional custom endpoint for S3-compatible storage (e.g. MinIO: http://localhost:9000).
+      "ForcePathStyle": false,    // Set true for path-style addressing (required by most S3-compatible servers like MinIO).
+      "PublicUrl": ""             // Optional CDN / public base URL. Falls back to the bucket's virtual-hosted URL.
+    }
   }
 }
