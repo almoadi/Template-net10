@@ -69,6 +69,11 @@ export function MarkdownPage({ content, onHeadingsChange }: MarkdownPageProps) {
             const code = String(child?.props?.children ?? '').replace(/\n$/, '');
             return <CodeBlock code={code} language={language} />;
           },
+          table: ({ children }) => (
+            <div className="mb-6 max-w-full overflow-x-auto">
+              <table>{children}</table>
+            </div>
+          ),
           code: ({ className, children, ...props }) => {
             if (className?.startsWith('language-')) {
               return <code className={className} {...props}>{children}</code>;

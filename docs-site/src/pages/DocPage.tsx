@@ -33,7 +33,7 @@ export function DocPage() {
         <MarkdownPage content={content} onHeadingsChange={setHeadings} />
         <PageNav prev={prev} next={next} />
       </div>
-      <div className="w-56 shrink-0">
+      <div className="hidden xl:block w-56 shrink-0">
         <TableOfContents headings={headings} />
       </div>
     </div>

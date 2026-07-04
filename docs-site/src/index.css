@@ -31,6 +31,7 @@ body {
 
 .prose-docs {
   @apply max-w-none text-[15px] leading-7 text-gray-700 dark:text-gray-300;
+  overflow-wrap: break-word;
 
   h1 {
     @apply mb-6 bg-gradient-to-r from-dotnet to-dotnet-cyan bg-clip-text text-3xl font-bold tracking-tight text-transparent;
@@ -69,7 +70,7 @@ body {
   }
 
   table {
-    @apply mb-6 w-full overflow-hidden rounded-lg border border-gray-200 text-sm dark:border-gray-800;
+    @apply w-full overflow-hidden rounded-lg border border-gray-200 text-sm dark:border-gray-800;
   }
 
   thead {
