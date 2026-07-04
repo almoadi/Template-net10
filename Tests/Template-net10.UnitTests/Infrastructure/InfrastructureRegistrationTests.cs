@@ -4,15 +4,18 @@ using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using Template_net10.Application.Abstractions.Caching;
 using Template_net10.Application.Abstractions.Encryption;
+using Template_net10.Application.Abstractions.Excel;
 using Template_net10.Application.Abstractions.Features;
 using Template_net10.Application.Abstractions.Jobs;
 using Template_net10.Application.Abstractions.Localization;
 using Template_net10.Application.Abstractions.Messaging;
 using Template_net10.Application.Abstractions.Notifications;
+using Template_net10.Application.Abstractions.Pdf;
 using Template_net10.Application.Abstractions.Security;
 using Template_net10.Application.Abstractions.Storage;
 using Template_net10.Application.Abstractions.Time;
 using Template_net10.Infrastructure;
+using Template_net10.Infrastructure.Services.Pdf;
 
 namespace Template_net10.UnitTests.Infrastructure;
 
@@ -53,6 +56,10 @@ public sealed class InfrastructureRegistrationTests
     [TestCase(typeof(IFeatureFlags))]
     [TestCase(typeof(IEncryptor))]
     [TestCase(typeof(IClock))]
+    [TestCase(typeof(IExcelWriter))]
+    [TestCase(typeof(IExcelReader))]
+    [TestCase(typeof(IPdfGenerator))]
+    [TestCase(typeof(IPdfRenderer))]
     public void Registers_service_from_every_feature_subfolder(Type serviceType)
     {
         var services = BuildInfrastructure();

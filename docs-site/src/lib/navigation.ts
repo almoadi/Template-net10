@@ -143,6 +143,13 @@ export const navigation: NavSection[] = [
     ],
   },
   {
+    title: 'Documents',
+    items: [
+      { title: 'Excel', slug: 'documents/excel' },
+      { title: 'PDF', slug: 'documents/pdf' },
+    ],
+  },
+  {
     title: 'Utilities',
     items: [
       { title: 'Clock', slug: 'utilities/clock' },
