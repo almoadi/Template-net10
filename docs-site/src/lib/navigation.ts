@@ -183,6 +183,10 @@ export const navigation: NavSection[] = [
     title: 'Aspire',
     items: [{ title: 'Overview', slug: 'aspire/overview' }],
   },
+  {
+    title: 'Deployment',
+    items: [{ title: 'Docker', slug: 'deployment/docker' }],
+  },
 ];
 
 export function getNavItemBySlug(slug: string): NavItem | undefined {

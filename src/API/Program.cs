@@ -11,6 +11,10 @@ foreach (var file in new[] { "app", "database", "cache", "mail", "jwt", "queue",
         .AddJsonFile($"config/{builder.Environment.EnvironmentName}/{file}.json", optional: true, reloadOnChange: true);
 }
 
+// Re-apply environment variables last so container/host env vars (e.g. Database__ConnectionString,
+// Jwt__SecretKey) override the config/*.json files. Essential for Docker / 12-factor deployments.
+builder.Configuration.AddEnvironmentVariables();
+
 builder.AddServiceDefaults();
 
 builder.Services.AddControllers();

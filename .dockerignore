@@ -1,0 +1,25 @@
+# Build artifacts
+**/bin/
+**/obj/
+**/out/
+
+# IDE / VCS
+.git/
+.github/
+.vs/
+.vscode/
+**/*.user
+
+# Docs site (not needed to build the API image)
+docs-site/node_modules/
+docs-site/dist/
+
+# Local packaging / test output
+artifacts/
+nupkg/
+**/TestResults/
+
+# Docker files themselves
+Dockerfile
+.dockerignore
+docker-compose*.yml
